@@ -7,7 +7,7 @@ module "networking" {
 }
 
 module "k8s" {
-  source = "../modules/k8s"
+  source = "../modules/k8s-infra"
 
   project_id = var.project_id
   region = var.region
@@ -19,4 +19,6 @@ module "account-creator" {
   project_id = var.project_id
   region = var.region
 }
+
+
 
