@@ -1,30 +1,26 @@
+name: Example pipeline
 on:
-    push:
-      branches: [ main ]
-    pull_request:
-      branches: [ main ]
-  
-env:
-    
-    AWS_REGION : "us-east-1" #Change to reflect your Region
-  
-  # Permission can be added at job level or workflow level    
+ pull_request:
+   branches: [master]
+
 permissions:
-        id-token: write   # This is required for requesting the JWT
-        contents: read    # This is required for actions/checkout
+ id-token: write
+ contents: read # This is required for actions/checkout@v2
+
 jobs:
-    AssumeRoleAndCallIdentity:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Git clone the repository
-          uses: actions/checkout@v3
-        - name: configure aws credentials
-          uses: aws-actions/configure-aws-credentials@v1.7.0
-          with:
-            role-to-assume: arn:aws:iam::427071048654D:role/github-actions-admin #change to reflect your IAM role’s ARN
-            role-session-name: GitHub_to_AWS_via_FederatedOIDC
-            aws-region: ${{ env.AWS_REGION }}
-        # Hello from AWS: WhoAmI
-        - name: Sts GetCallerIdentity
-          run: |
-            aws sts get-caller-identity
+ pull_request:
+   runs-on: ubuntu-latest
+
+   env:
+     AWS_DEFAULT_REGION: us-east-1
+
+   steps:
+   - name: configureawscredentials
+     uses: aws-actions/configure-aws-credentials@v1
+     with:
+       role-to-assume: arn:aws:iam::427071048654D:role/github-actions-admin
+       role-session-name: samplerolesession
+       aws-region: ${{env.AWS_DEFAULT_REGION}}
+
+   - name: Checkout
+     uses: actions/checkout@v2
