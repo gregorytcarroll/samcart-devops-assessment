@@ -19,6 +19,7 @@ jobs:
         aws sts assume-role-with-web-identity \
           --role-arn arn:aws:iam::427071048654D:role/github-actions-admin \
           --role-session-name GitHubActionsSession \
+          --web-identity-token ${{ secrets.AWS_WEB_IDENTITY_TOKEN }} \
         # Configure AWS CLI with the credentials.
 
     - name: Set up Docker Buildx
