@@ -35,12 +35,12 @@ jobs:
               terraform_version: 0.14.0
 
            - name: Initialize Terraform
-             run: terraform init
+             run: terraform init ./infrastructure/dev-env
 
            - name: Plan Terraform changes
-             run: terraform plan -out=tfplan
+             run: terraform plan ./infrastructure/dev-env -out=tfplan
 
            - name: Apply Terraform changes
-             run: terraform apply -auto-approve tfplan
+             run: terraform apply tfplan
 
       # Add additional steps for testing and deploying your application
