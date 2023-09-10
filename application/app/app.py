@@ -8,6 +8,10 @@ from slack_sdk.errors import SlackApiError
 from flask import Flask, request, jsonify
 import re
 
+openai_key = os.environ['OPENAI_KEY']
+confluence_api_token = os.environ['CONFLUENCE_API_TOKEN']
+slack_api_token = os.environ['SLACK_API_TOKEN']
+
 def install_dependencies():
     packages = ['llama_index', 'openai', 'requests', 'beautifulsoup4', 'joblib', 'slack_sdk', 'pyngrok']
     installed_packages = subprocess.check_output(['pip3', 'freeze']).decode('utf-8').splitlines()
@@ -30,12 +34,12 @@ from llama_index import Document
 
 
 ## OpenAI Configuration ##
-openai.api_key = <INSERT OPENAI API KEY>
+openai.api_key = openai_key
 
-# Set up Confluence API details
-base_url = <INSERT CONFLUENCE URL>
-api_token = <INSERT CONFLUENCE API TOKEN>
-page_id = <INSERT CONFLUENCE PAGE ID>
+# Set up Confluence API details - using Test Page
+base_url = https://greg-carroll.atlassian.net/
+api_token = confluence_api_token
+page_id = 98442
 
 # Encode API token in Base64
 credentials = f'{api_token}'
@@ -67,7 +71,7 @@ else:
 app = Flask(__name__)
 
 # Set up the Slack API client
-slack_token = <INSERT SLACK API TOKEN>
+slack_token = slack_api_token
 slack_client = WebClient(token=slack_token)
 
 # Handle Slack events
