@@ -6,6 +6,22 @@ on:
       - main  # Adjust to your main branch name
 
 jobs:
+  AssumeRoleAndCallIdentity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v3
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v1.7.0
+        with:
+          role-to-assume: arn:aws:iam::427071048654:role/github-actions-admin #change to reflect your IAM role’s ARN
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ env.AWS_REGION }}
+      # Hello from AWS: WhoAmI
+      - name: Sts GetCallerIdentity
+        run: |
+          aws sts get-caller-identity
+
   deploy:
     runs-on: ubuntu-latest
 
