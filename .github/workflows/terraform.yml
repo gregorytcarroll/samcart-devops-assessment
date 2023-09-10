@@ -1,5 +1,5 @@
 # .github/workflows/terraform.yml
-name: Terraform CI/CD
+name: Terraform Workflow
 
 on:
   pull_request:
