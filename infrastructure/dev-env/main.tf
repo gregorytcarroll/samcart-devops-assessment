@@ -1,4 +1,3 @@
-# main.tf
 
 module "networking" {
   source = "./modules/networking"
@@ -9,6 +8,13 @@ module "networking" {
 
 module "k8s" {
   source = "./modules/k8s"
+
+  project_id = var.project_id
+  region = var.region
+}
+
+module "account-creator" {
+  source = "./modules/account-mgmt"
 
   project_id = var.project_id
   region = var.region

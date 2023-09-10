@@ -2,30 +2,41 @@
 name: Terraform CI/CD
 
 on:
+  pull_request:
+      branches: main
   push:
-    branches:
-      - main
+    branches: main  
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+      deploy:
+        runs-on: ubuntu-latest
+    
+        env:
+          AWS_DEFAULT_REGION: us-east-1
+    
+        steps:
+           - name: configureawscredentials
+             uses: aws-actions/configure-aws-credentials@v1
+             with:
+               role-to-assume: arn:aws:iam::427071048654:role/github-actions-admin
+               role-session-name: k8sdeploysession
+               aws-region: ${{env.AWS_DEFAULT_REGION}}
+        
+           - name: Checkout
+             uses: actions/checkout@v2
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+           - name: Set up Terraform
+             uses: hashicorp/setup-terraform@v1
+             with: 
+              terraform_version: 0.14.0
 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 0.14.0
+           - name: Initialize Terraform
+             run: terraform init
 
-      - name: Initialize Terraform
-        run: terraform init
+           - name: Plan Terraform changes
+             run: terraform plan -out=tfplan
 
-      - name: Plan Terraform changes
-        run: terraform plan -out=tfplan
-
-      - name: Apply Terraform changes
-        run: terraform apply -auto-approve tfplan
+           - name: Apply Terraform changes
+             run: terraform apply -auto-approve tfplan
 
       # Add additional steps for testing and deploying your application
