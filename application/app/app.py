@@ -37,7 +37,7 @@ from llama_index import Document
 openai.api_key = openai_key
 
 # Set up Confluence API details - using Test Page
-base_url = https://greg-carroll.atlassian.net/
+base_url = "https://greg-carroll.atlassian.net/"
 api_token = confluence_api_token
 page_id = 98442
 
