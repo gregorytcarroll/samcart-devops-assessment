@@ -24,3 +24,7 @@ jobs:
 
    - name: Checkout
      uses: actions/checkout@v2
+
+   - name: Some AWS commands
+     run: |
+       aws --region us-east-1
