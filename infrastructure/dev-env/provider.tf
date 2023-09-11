@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
+    terraform = {
+      source  = "hashicorp/terraform"
+      version = ">= 1.0"
+    }
   }
 }
 
