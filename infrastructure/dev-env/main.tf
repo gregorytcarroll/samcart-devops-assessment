@@ -13,8 +13,6 @@ module "k8s" {
 
 module "account-creator" {
   source = "../modules/account-mgmt"
-
-  region = var.region
 }
 
 
