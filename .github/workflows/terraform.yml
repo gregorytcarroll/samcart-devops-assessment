@@ -35,10 +35,10 @@ jobs:
               terraform_version:  1.5.0
 
            - name: Initialize Terraform
-             run: terraform init ./infrastructure/dev-env
+             run: terraform init -chdir=/infrastructure/dev-env
 
            - name: Plan Terraform changes
-             run: terraform plan ./infrastructure/dev-env -out=tfplan
+             run: terraform plan -chdir=e/infrastructure/dev-env -out=tfplan
 
            - name: Apply Terraform changes
              run: terraform apply tfplan
