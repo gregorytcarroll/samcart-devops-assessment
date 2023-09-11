@@ -1,6 +1,5 @@
 module "account-creation" {
   source  = "tedilabs/account/aws//modules/account"
-  version = "0.27.1"
   
   name = "samcart-assessment"
 }
