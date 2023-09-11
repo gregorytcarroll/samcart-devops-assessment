@@ -12,7 +12,7 @@ jobs:
    runs-on: ubuntu-latest
 
    env:
-     AWS_DEFAULT_REGION: us-east-1
+     AWS_DEFAULT_REGION: us-west-2
 
    steps:
    - name: configureawscredentials
@@ -27,4 +27,4 @@ jobs:
 
    - name: Some AWS commands
      run: |
-       aws s3 ls --region us-east-1
+       aws s3 ls --region us-west-2
