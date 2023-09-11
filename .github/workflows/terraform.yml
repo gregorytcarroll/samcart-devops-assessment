@@ -38,7 +38,7 @@ jobs:
              run: terraform init -chdir=/infrastructure/dev-env
 
            - name: Plan Terraform changes
-             run: terraform plan -chdir=e/infrastructure/dev-env -out=tfplan
+             run: terraform plan -chdir=/infrastructure/dev-env -out=tfplan
 
            - name: Apply Terraform changes
              run: terraform apply tfplan
