@@ -23,7 +23,7 @@ module "eks" {
 
   vpc_id                   = var.vpc_id
   subnet_ids               = var.subnet_ids
-  control_plane_subnet_ids = var.control_plane_subnet_ids
+  control_plane_subnet_ids = ["10.0.1.0/24","10.0.3.0/24","10.0.5.0/24"]
 
   # Self Managed Node Group(s)
   self_managed_node_group_defaults = {
