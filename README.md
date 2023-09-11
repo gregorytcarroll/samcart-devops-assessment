@@ -15,5 +15,6 @@ Improvements Planned:
   - Key generation is automatic, as well as storage
   - Cleaner solution for K8s (ArgoCD and Helm Charts) 
     - Note: Not included since don't have the tools personally/locally
+  - Look into AFT and Control Tower to manage accounts from TF 
 
 

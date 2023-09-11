@@ -1,31 +1,17 @@
-module "aft" {
-  source = "git@github.com:aws-ia/terraform-aws-control_tower_account_factory.git"
+resource "aws_organizations_account" "dev" {
+  # A friendly name for the member account
+  name  = "test-account"
+  email = "gregscarrolL@mgail.com"
 
-  # Required Parameters
-  ct_management_account_id    = "427071048654"
-  log_archive_account_id      = "427071048654"
-  audit_account_id            = "427071048654"
-  aft_management_account_id   = "427071048654"
-  ct_home_region              = "us-east-1"
-  tf_backend_secondary_region = "us-west-2"
+  # Enables IAM users to access account billing information 
+  # if they have the required permissions
+  iam_user_access_to_billing = "ALLOW"
 
-  # Optional Parameters
-  terraform_distribution = "oss"
-  vcs_provider           = "github"
+  tags = {
+    Name  = "test-account"
+    Owner = "Greg Carroll"
+    Role  = "development"
+  }
 
-  # Optional Feature Flags
-  aft_feature_delete_default_vpcs_enabled = false
-  aft_feature_cloudtrail_data_events      = false
-  aft_feature_enterprise_support          = false
-}
-
-module "account-setup" {
-  source  = "daringway/account-setup/aws"
-  version = "3.1.0"
-
-  depends_on = [module.aft]
-
-  cloudtrail_enabled = true
-  default_security_group_managed = true
-  log_bucket_enabled = true
+  parent_id = aws_organizations_organizational_unit.dev.id
 }
