@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      AWS_DEFAULT_REGION: us-east-1
+      AWS_DEFAULT_REGION: us-west-2
 
     steps:
        - name: configureawscredentials
@@ -23,7 +23,7 @@ jobs:
          with:
            role-to-assume: arn:aws:iam::427071048654:role/github-actions-admin
            role-session-name: k8sdeploysession
-           aws-region: ${{env.AWS_DEFAULT_REGION}}
+           aws-region: us-west-2
     
        - name: Checkout
          uses: actions/checkout@v2
@@ -38,8 +38,8 @@ jobs:
             aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
             docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/my-python-app:${{ github.sha }}
          env:
-          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_ACCOUNT_ID: 427071048654
+          AWS_REGION: us-west-2
 
 
        - name: Set up kubectl
