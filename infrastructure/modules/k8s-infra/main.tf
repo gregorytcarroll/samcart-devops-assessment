@@ -96,7 +96,7 @@ module "eks" {
 
   aws_auth_roles = [
     {
-      rolearn  = "arn:aws:iam::66666666666:role/role1"
+      rolearn  = "arn:aws:iam::427071048654:role/github-actions-admin"
       username = "role1"
       groups   = ["system:masters"]
     },
@@ -108,16 +108,10 @@ module "eks" {
       username = "user1"
       groups   = ["system:masters"]
     },
-    {
-      userarn  = "arn:aws:iam::66666666666:user/user2"
-      username = "user2"
-      groups   = ["system:masters"]
-    },
   ]
 
   aws_auth_accounts = [
-    "777777777777",
-    "888888888888",
+    "427071048654"
   ]
 
   tags = {

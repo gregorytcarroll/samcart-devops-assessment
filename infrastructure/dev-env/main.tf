@@ -1,16 +1,17 @@
-# main.tf
-
 module "networking" {
-  source = "./modules/networking"
-
-  project_id = var.project_id
-  region = var.region
+  source = "../modules/networking"
 }
 
 module "k8s" {
-  source = "./modules/k8s"
+  source = "../modules/k8s-infra"
 
-  project_id = var.project_id
-  region = var.region
+  depends_on = [ module.networking ]
 }
+
+# module "account-creator" {
+#   source = "../modules/account-mgmt"
+# }
+# Removed due to Github Actions issues
+
+
 

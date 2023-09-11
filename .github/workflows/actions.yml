@@ -1,24 +1,24 @@
-name: Example pipeline
+name: Workflow Connection Test
 on:
  pull_request:
    branches: main
 
 permissions:
  id-token: write
- contents: read # This is required for actions/checkout@v2
+ contents: read 
 
 jobs:
  pull_request:
    runs-on: ubuntu-latest
 
    env:
-     AWS_DEFAULT_REGION: us-east-1
+     AWS_DEFAULT_REGION: us-west-2
 
    steps:
    - name: configureawscredentials
      uses: aws-actions/configure-aws-credentials@v1
      with:
-       role-to-assume: arn:aws:iam::427071048654D:role/github-actions-admin
+       role-to-assume: arn:aws:iam::427071048654:role/github-actions-admin
        role-session-name: samplerolesession
        aws-region: ${{env.AWS_DEFAULT_REGION}}
 
@@ -27,4 +27,4 @@ jobs:
 
    - name: Some AWS commands
      run: |
-       aws --region us-east-1
+       aws s3 ls --region us-west-2

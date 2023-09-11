@@ -1,6 +1,7 @@
+## K8s ##
+
 variable "vpc_id" {
     type = string
-    default = "vpc-4570433d"
 }
 
  variable "cluster_name" {

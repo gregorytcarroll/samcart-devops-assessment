@@ -9,13 +9,13 @@ terraform {
 
 terraform {
   backend "s3" {
-    region = "us-east-1"
+    region = "us-west-2"
     bucket  = "terraform-states-gtest"
     key     = "state/samcart-test.tfstate"
   }
 }
 
 provider "aws" {
-  region = "us-east-1"
+  region = "us-west-2"
 }
 
