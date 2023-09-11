@@ -1,7 +1,7 @@
 resource "aws_organizations_account" "dev" {
   # A friendly name for the member account
   name  = "test-account"
-  email = "gregscarrolL@mgail.com"
+  email = "gregscarroll@gmail.com"
 
   # Enables IAM users to access account billing information 
   # if they have the required permissions
