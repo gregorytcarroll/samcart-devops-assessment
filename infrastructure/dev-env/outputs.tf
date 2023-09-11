@@ -2,10 +2,10 @@ output "vpc_id" {
     value = module.vpc.vpc_id
 }
 
-output "vpc_public_subnets" {
+output "subnets_ids" {
     value = module.vpc.public_subnets
 }
   
-output "vpc_control_plane_subnets" {
+output "control_plane_subnets_ids" {
     value = module.vpc.private_subnets
 }

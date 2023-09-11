@@ -1,5 +1,18 @@
-variable "region" {
-    description = "(Required) The AWS region this account will be created in."
-    type        = string
-    default    = "us-west-2"
+## K8s ##
+
+variable "vpc_id" {
+    type = string
+}
+
+ variable "cluster_name" {
+     type = string
+     default = "dev-env-cluster"
+ }
+  
+variable "subnet_ids" {
+    type = list(string)
+}
+  
+variable "control_plane_subnet_ids" {
+    type = list(string)
 }
