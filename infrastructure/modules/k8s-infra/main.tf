@@ -1,121 +1,92 @@
-## Using the AWS Registry Module https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest ##
-
-module "eks" { 
-  source  = "terraform-aws-modules/eks/aws"
-  version = "~> 19.0"
-
-  cluster_name    = var.cluster_name
+module "eks_cluster" {
+  source = "terraform-aws-modules/eks/aws"
+  
+  cluster_name    = var.eks_cluster_name
   cluster_version = "1.27"
+  subnet_ids      = module.vpc.private_subnets
+  vpc_id          = module.vpc.vpc_id
 
-  cluster_endpoint_public_access  = true
-
-  cluster_addons = {
-    coredns = {
-      most_recent = true
-    }
-    kube-proxy = {
-      most_recent = true
-    }
-    vpc-cni = {
-      most_recent = true
-    }
-  }
-
-  vpc_id                   = var.vpc_id
-  subnet_ids               = var.subnet_ids
-  control_plane_subnet_ids = var.control_plane_subnet_ids
-
-  # Self Managed Node Group(s)
-  self_managed_node_group_defaults = {
-    instance_type                          = "m6i.large"
-    update_launch_template_default_version = true
-    iam_role_additional_policies = {
-      AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-    }
-  }
-
-  self_managed_node_groups = {
-    one = {
-      name         = "mixed-1"
-      max_size     = 5
-      desired_size = 2
-
-      use_mixed_instances_policy = true
-      mixed_instances_policy = {
-        instances_distribution = {
-          on_demand_base_capacity                  = 0
-          on_demand_percentage_above_base_capacity = 10
-          spot_allocation_strategy                 = "capacity-optimized"
-        }
-
-        override = [
-          {
-            instance_type     = "m5.large"
-            weighted_capacity = "1"
-          },
-          {
-            instance_type     = "m6i.large"
-            weighted_capacity = "2"
-          },
-        ]
-      }
-    }
-  }
-
-  # EKS Managed Node Group(s)
-  eks_managed_node_group_defaults = {
-    instance_types = ["m6i.large", "m5.large", "m5n.large", "m5zn.large"]
-  }
-
+  # EKS worker node settings (customize as needed)
   eks_managed_node_groups = {
-    blue = {}
-    green = {
-      min_size     = 1
-      max_size     = 10
-      desired_size = 1
-
-      instance_types = ["t3.large"]
-      capacity_type  = "SPOT"
+    eks_nodes = {
+      desired_capacity = 2
+      max_capacity     = 3
+      min_capacity     = 1
+      instance_type    = "t2.micro"
+      key_name         = "my-key-pair"
+      volume_size      = 20
     }
   }
+}
 
-  # Fargate Profile(s)
-  fargate_profiles = {
-    default = {
-      name = "default"
-      selectors = [
-        {
-          namespace = "default"
-        }
-      ]
-    }
-  }
 
-  # aws-auth configmap
-  manage_aws_auth_configmap = true
+resource "aws_lb" "dev_lb" {
+  name               = "eks-lb-ext"
+  internal           = false  # Set to true if internal LB
+  load_balancer_type = "application"
 
-  aws_auth_roles = [
-    {
-      rolearn  = "arn:aws:iam::427071048654:role/github-actions-admin"
-      username = "role1"
-      groups   = ["system:masters"]
-    },
-  ]
+  enable_deletion_protection = true 
+  enable_http2               = true
 
-  aws_auth_users = [
-    {
-      userarn  = "arn:aws:iam::66666666666:user/user1"
-      username = "user1"
-      groups   = ["system:masters"]
-    },
-  ]
+  subnets = module.vpc.private_subnets
 
-  aws_auth_accounts = [
-    "427071048654"
-  ]
+  enable_cross_zone_load_balancing = true
 
   tags = {
-    Environment = "dev"
-    Terraform   = "true"
+    Name = "eks-lb-ext"
   }
+}
+
+
+resource "aws_s3_bucket" "eks_bucket" {
+  bucket = "dev-eks-bucket"
+  acl    = "private" 
+
+  # Enable versioning, logging, and encryption options if desired
+  versioning {
+    enabled = true
+  }
+
+  lifecycle_rule {
+    enabled = true
+
+    transition {
+      days          = 30
+      storage_class = "STANDARD_IA"
+    }
+
+    expiration {
+      days = 90
+    }
+  }
+}
+
+module "vpc" {
+  source                        = "terraform-aws-modules/vpc/aws"
+  version                       = "5.1.2"
+  name                          = var.vpc_name
+  cidr                          = var.vpc_cidr
+  azs                           = var.availability_zones
+  private_subnets               = var.private_subnets
+  public_subnets                = var.public_subnets
+  enable_nat_gateway            = var.enable_nat_gateway
+  single_nat_gateway            = var.single_nat_gateway
+  enable_dns_hostnames          = var.enable_dns_hostnames
+  manage_default_security_group = var.manage_default_security_group
+  default_security_group_name   = var.default_security_group_name
+  
+  public_subnet_tags = {
+    "kubernetes.io/cluster/vpc-serverless" = "shared"
+    "kubernetes.io/role/elb"               = "1"
+  }
+
+  private_subnet_tags = {
+    "kubernetes.io/cluster/vpc-serverless" = "shared"
+    "kubernetes.io/role/internal-elb"      = "1"
+  }
+
+  tags = {
+    "kubernetes.io/cluster/vpc-serverless" = "shared"
+  }
+
 }

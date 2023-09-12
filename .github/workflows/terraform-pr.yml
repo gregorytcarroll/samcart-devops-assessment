@@ -4,8 +4,6 @@ name: Terraform Workflow
 on:
   pull_request:
       branches: main
-  push:
-    branches: main  
 
 permissions:
     id-token: write
@@ -34,6 +32,11 @@ jobs:
              with: 
               terraform_version:  1.5.0
 
+           - name: Terraform fmt
+             id: fmt
+             run: terraform fmt -check
+             continue-on-error: true
+
            - name: Initialize Terraform
              run: terraform init
              working-directory: infrastructure/dev-env
@@ -42,7 +45,4 @@ jobs:
              run: terraform plan -out=tfplan
              working-directory: infrastructure/dev-env
 
-           - name: Apply Terraform changes
-             run: terraform apply tfplan
-
-      # Add additional steps for testing and deploying your application
+             # Add additional steps for testing and deploying your application

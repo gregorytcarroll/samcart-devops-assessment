@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-python-app-deployment
+  name: simple-app-deployment
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: my-python-app
+      app: infra-bot
   template:
     metadata:
       labels:
-        app: my-python-app
+        app: infra-bot
     spec:
       containers:
-      - name: my-python-app-container
-        image: my-python-app:1.0
-        ports:
-        - containerPort: 80
+        - name: infra-bot
+          image: 427071048654.dkr.ecr.us-west-2.amazonaws.com/simple-app-repo:latest
+          ports:
+            - containerPort: 80

@@ -4,8 +4,6 @@
  Features Included:
   - Python Application for Slack Based Confluence bot
   - Kubernetes Infra
-  - AWS Account Infra - via Terraform
-    - Account creation via Terraform using AWS Organisations
   - Github Actions Workflows for both Terraform and K8s 
     - Keyless integration with AWS via OIDC
     - Secrets all stored in Github so they are not exposed
