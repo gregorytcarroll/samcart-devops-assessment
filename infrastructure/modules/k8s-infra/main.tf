@@ -1,10 +1,10 @@
 module "eks_cluster" {
   source = "terraform-aws-modules/eks/aws"
   
-  cluster_name    = "my-eks-cluster"
+  cluster_name    = var.eks_cluster_name
   cluster_version = "1.21"
-  subnet_ids      = module.networking.private_subnets_ids
-  vpc_id          = module.networking.vpc_id
+  subnet_ids      = module.vpc.private_subnets_ids
+  vpc_id          = module.vpc.vpc_id
 
   # EKS worker node settings (customize as needed)
   eks_managed_node_groups = {
@@ -28,7 +28,7 @@ resource "aws_lb" "example_lb" {
   enable_deletion_protection = true 
   enable_http2               = true
 
-  subnets = module.networking.private_subnets_ids
+  subnets = module.vpc.private_subnets_ids
 
   enable_cross_zone_load_balancing = true
 
@@ -61,3 +61,32 @@ resource "aws_s3_bucket" "eks_bucket" {
   }
 }
 
+module "vpc" {
+  source                        = "terraform-aws-modules/vpc/aws"
+  version                       = "5.1.2"
+  name                          = var.vpc_name
+  cidr                          = var.vpc_cidr
+  azs                           = var.availability_zones
+  private_subnets               = var.private_subnets
+  public_subnets                = var.public_subnets
+  enable_nat_gateway            = var.enable_nat_gateway
+  single_nat_gateway            = var.single_nat_gateway
+  enable_dns_hostnames          = var.enable_dns_hostnames
+  manage_default_security_group = var.manage_default_security_group
+  default_security_group_name   = var.default_security_group_name
+  
+  public_subnet_tags = {
+    "kubernetes.io/cluster/vpc-serverless" = "shared"
+    "kubernetes.io/role/elb"               = "1"
+  }
+
+  private_subnet_tags = {
+    "kubernetes.io/cluster/vpc-serverless" = "shared"
+    "kubernetes.io/role/internal-elb"      = "1"
+  }
+
+  tags = {
+    "kubernetes.io/cluster/vpc-serverless" = "shared"
+  }
+
+}

@@ -1,1 +1,0 @@
-# The Purpose of this module is to establish all of the networking related resources required to function #
