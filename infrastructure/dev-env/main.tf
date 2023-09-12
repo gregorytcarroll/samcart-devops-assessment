@@ -22,3 +22,7 @@ module "k8s" {
   public_subnets = var.public_subnets
   
 }
+
+module "k8s-app" {
+  source = "../modules/k8s-app"
+}

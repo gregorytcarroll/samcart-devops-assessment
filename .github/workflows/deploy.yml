@@ -33,7 +33,7 @@ jobs:
           docker buildx create --use
           docker buildx build --platform linux/amd64 -f ./application/app/Dockerfile -t ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/my-python-app:${{ github.sha }} .
           aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
-          docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/my-python-app:${{ github.sha }}
+          docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/simple-app-repo:${{ github.sha }}
         env:
           AWS_ACCOUNT_ID: 427071048654
           AWS_REGION: us-west-2
