@@ -25,4 +25,7 @@ module "k8s" {
 
 module "k8s-app" {
   source = "../modules/k8s-app"
+
+  repo-name = var.repo-name
+  kubernetes_deployment_name = var.kubernetes_deployment_name
 }
