@@ -39,7 +39,7 @@ resource "aws_lb" "dev_lb" {
 
 
 resource "aws_s3_bucket" "eks_bucket" {
-  bucket = "eks-bucket"
+  bucket = "dev-eks-bucket"
   acl    = "private" 
 
   # Enable versioning, logging, and encryption options if desired
