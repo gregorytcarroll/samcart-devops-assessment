@@ -1,3 +1,7 @@
+module "vpc" {
+  source = "./networking"  # Adjust the source path accordingly
+}
+
 module "eks_cluster" {
   source           = "terraform-aws-modules/eks/aws"
   cluster_name     = "dev-cluster"
