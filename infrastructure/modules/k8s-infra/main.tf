@@ -3,11 +3,11 @@ module "eks_cluster" {
   
   cluster_name    = "my-eks-cluster"
   cluster_version = "1.21"
-  subnets         = module.networking.private_subnets_ids
+  subnets_ids         = module.networking.private_subnets_ids
   vpc_id          = module.networking.vpc_id
 
   # EKS worker node settings (customize as needed)
-  node_groups = {
+  eks_managed_node_groups = {
     eks_nodes = {
       desired_capacity = 2
       max_capacity     = 3
