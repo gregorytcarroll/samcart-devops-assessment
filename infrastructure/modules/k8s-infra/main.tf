@@ -26,6 +26,10 @@ module "eks" {
   control_plane_subnet_ids = ["10.0.1.0/24","10.0.3.0/24","10.0.5.0/24"]
 
   # Self Managed Node Group(s)
+  iam_policy_prefixes = [
+    "${local.iam_role_policy_prefix}/AmazonEKSWorkerNodePolicy",
+    "${local.iam_role_policy_prefix}/AmazonEC2ContainerRegistryReadOnly",
+  ]
   self_managed_node_group_defaults = {
     instance_type                          = "m6i.large"
     update_launch_template_default_version = true

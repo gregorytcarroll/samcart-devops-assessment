@@ -11,10 +11,6 @@ variable "subnet_ids" {
 
 variable "iam_policy_prefixes" {
   type    = list(string)
-  default = [
-    "${local.iam_role_policy_prefix}/AmazonEKSWorkerNodePolicy",
-    "${local.iam_role_policy_prefix}/AmazonEC2ContainerRegistryReadOnly",
-  ]
 }
 
 ## Networking ##
