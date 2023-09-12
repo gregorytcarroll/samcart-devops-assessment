@@ -1,0 +1,51 @@
+# .github/workflows/terraform.yml
+name: Terraform Workflow
+
+on:
+    push:
+      branches:
+        - main
+
+permissions:
+    id-token: write
+    contents: read
+
+jobs:
+      deploy:
+        runs-on: ubuntu-latest
+    
+        env:
+          AWS_DEFAULT_REGION: us-west-2
+    
+        steps:
+           - name: configureawscredentials
+             uses: aws-actions/configure-aws-credentials@v1
+             with:
+               role-to-assume: arn:aws:iam::427071048654:role/github-actions-admin
+               role-session-name: k8sdeploysession
+               aws-region: ${{env.AWS_DEFAULT_REGION}}
+        
+           - name: Checkout
+             uses: actions/checkout@v2
+
+           - name: Set up Terraform
+             uses: hashicorp/setup-terraform@v1
+             with: 
+              terraform_version:  1.5.0
+
+           - name: Terraform fmt
+             id: fmt
+             run: terraform fmt -check
+             continue-on-error: true
+
+           - name: Initialize Terraform
+             run: terraform init
+             working-directory: infrastructure/dev-env
+
+           - name: Plan Terraform changes
+             run: terraform plan -out=tfplan
+             working-directory: infrastructure/dev-env
+     
+           - name: Apply Terraform changes
+             run: terraform apply tfplan
+             working-directory: infrastructure/dev-env
