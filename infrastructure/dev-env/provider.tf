@@ -19,3 +19,8 @@ provider "aws" {
   region = "us-west-2"
 }
 
+provider "kubernetes" {
+  alias           = "eks"
+  config_context = "dev-context"
+}
+
