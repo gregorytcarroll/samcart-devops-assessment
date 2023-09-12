@@ -9,10 +9,6 @@ variable "subnet_ids" {
     type = list(string)
 }
 
-variable "iam_policy_prefixes" {
-  type    = list(string)
-}
-
 ## Networking ##
 
 variable "vpc_name" {
