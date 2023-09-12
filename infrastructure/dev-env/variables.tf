@@ -1,4 +1,4 @@
-# Variables for the EKS cluster module
+# Variables for the EKS Cluster Module
 
 variable "eks_cluster_name" {
   description = "Name for the EKS cluster"
@@ -40,7 +40,7 @@ variable "eks_node_volume_size" {
   type        = number
 }
 
-# Variables for the VPC module
+# Variables for the VPC Module
 
 variable "vpc_name" {
   description = "Name for the VPC"
@@ -90,4 +90,16 @@ variable "manage_default_security_group" {
 variable "default_security_group_name" {
   description = "Name for the default security group"
   type        = string
+}
+
+# Variables for the ECR Module
+
+variable "repo-name" {
+    description = "Name of the ECR repository"
+    type        = string
+}
+
+variable "kubernetes_deployment_name" {
+    description = "Name of the Kubernetes deployment"
+    type        = string
 }

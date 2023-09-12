@@ -1,4 +1,4 @@
-# EKS cluster variables
+# EKS Cluster Variables
 eks_cluster_name            = "dev-eks-cluster"
 eks_cluster_version         = "1.21"
 eks_node_desired_capacity   = 2
@@ -8,7 +8,7 @@ eks_node_instance_type      = "t2.micro"
 eks_node_key_name           = "dev-key-pair"
 eks_node_volume_size        = 20
 
-# VPC variables
+# VPC Variables
 vpc_name                    = "vpc-serverless"
 vpc_cidr                    = "10.0.0.0/16"
 availability_zones          = ["us-west-2a", "us-west-2b", "us-west-2c"]
@@ -19,3 +19,8 @@ single_nat_gateway          = true
 enable_dns_hostnames        = true
 manage_default_security_group = true
 default_security_group_name = "vpc-serverless-security-group"
+
+# ECR Variables
+
+repo-name = "simple-app-repo"
+kubernetes_deployment_name = "simple-app-deployment"
