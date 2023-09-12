@@ -1,6 +1,5 @@
 module "eks_cluster" {
   source = "terraform-aws-modules/eks/aws"
-  depends_on = [ module.key_pair ]
 
   cluster_name    = var.eks_cluster_name
   cluster_version = "1.27"
