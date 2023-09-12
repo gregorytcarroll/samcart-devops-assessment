@@ -3,7 +3,7 @@ module "eks_cluster" {
   
   cluster_name    = "my-eks-cluster"
   cluster_version = "1.21"
-  subnets_ids         = module.networking.private_subnets_ids
+  subnet_ids         = module.networking.private_subnets_ids
   vpc_id          = module.networking.vpc_id
 
   # EKS worker node settings (customize as needed)
