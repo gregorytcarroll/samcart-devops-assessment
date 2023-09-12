@@ -12,3 +12,5 @@ RUN pip freeze > requirements.txt
 
 # Define the command to run your Python application
 CMD [ "python", "app.py" ]
+
+# deploy.yml will handle the workflow for building and deploying the application
