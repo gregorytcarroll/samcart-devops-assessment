@@ -42,7 +42,7 @@ jobs:
         run: |
                 aws eks --region us-west-2 update-kubeconfig --name dev-eks-cluster
         env:
-          KUBECONFIG: ${{ runner.workspace }}./application/k8s/.kube/config 
+          KUBECONFIG: ${{ runner.workspace }}/application/k8s/.kube/config 
 
 
       - name: Set up kubectl
@@ -50,7 +50,6 @@ jobs:
         with:
           install-missing: true
           version: latest
-          kubeconfig: ./../application/k8s/.kube/config 
 
       - name: Deploy to Kubernetes
         run: |
