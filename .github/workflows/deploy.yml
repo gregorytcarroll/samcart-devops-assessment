@@ -38,6 +38,12 @@ jobs:
               aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin 427071048654.dkr.ecr.${AWS_REGION}.amazonaws.com
               docker push 427071048654.dkr.ecr.${AWS_REGION}.amazonaws.com/simple-app-repo:${{ github.sha }}
         
+      - name: Configure kubectl
+        run: |
+                aws eks --region us-west-2 update-kubeconfig --name dev-eks-cluster
+        env:
+          KUBECONFIG: ${{ runner.workspace }}/.kube/config 
+
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v1
