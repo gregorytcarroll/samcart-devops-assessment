@@ -3,7 +3,7 @@ module "eks_cluster" {
 
   cluster_name    = var.eks_cluster_name
   cluster_version = "1.27"
-  subnet_ids      = module.vpc.private_subnets
+  subnet_ids      = module.vpc.public_subnets
   vpc_id          = module.vpc.vpc_id
 
   # EKS worker node settings (customize as needed)
@@ -35,7 +35,7 @@ resource "aws_lb" "dev_lb" {
   enable_deletion_protection = true 
   enable_http2               = true
 
-  subnets = module.vpc.private_subnets
+  subnets = module.vpc.public_subnets
 
   enable_cross_zone_load_balancing = true
 
