@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Install any necessary dependencies (e.g., using pip)
-RUN pip3 install -r requirements.txt
+RUN pip freeze > requirements.txt
 
 # Define the command to run your Python application
 CMD [ "python", "app.py" ]
