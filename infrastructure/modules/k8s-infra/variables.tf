@@ -1,4 +1,5 @@
 # Variables for the EKS cluster module
+
 variable "eks_cluster_name" {
   description = "Name for the EKS cluster"
   type        = string
@@ -40,6 +41,7 @@ variable "eks_node_volume_size" {
 }
 
 # Variables for the VPC module
+
 variable "vpc_name" {
   description = "Name for the VPC"
   type        = string
@@ -88,19 +90,4 @@ variable "manage_default_security_group" {
 variable "default_security_group_name" {
   description = "Name for the default security group"
   type        = string
-}
-
-variable "public_subnet_tags" {
-  description = "Tags for public subnets"
-  type        = map(string)
-}
-
-variable "private_subnet_tags" {
-  description = "Tags for private subnets"
-  type        = map(string)
-}
-
-variable "vpc_tags" {
-  description = "Tags for the VPC"
-  type        = map(string)
 }
