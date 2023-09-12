@@ -2,9 +2,8 @@
 name: Terraform Workflow
 
 on:
-    push:
-      branches:
-        - main
+  push:
+      branches: main
 
 permissions:
     id-token: write
@@ -49,3 +48,5 @@ jobs:
            - name: Apply Terraform changes
              run: terraform apply tfplan
              working-directory: infrastructure/dev-env
+
+             # Add additional steps for testing and deploying your application
