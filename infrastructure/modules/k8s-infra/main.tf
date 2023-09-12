@@ -3,7 +3,7 @@ module "eks_cluster" {
   
   cluster_name    = var.eks_cluster_name
   cluster_version = "1.21"
-  subnet_ids      = module.vpc.private_subnets_ids
+  subnet_ids      = module.vpc.private_subnets
   vpc_id          = module.vpc.vpc_id
 
   # EKS worker node settings (customize as needed)
@@ -20,7 +20,7 @@ module "eks_cluster" {
 }
 
 
-resource "aws_lb" "example_lb" {
+resource "aws_lb" "dev_lb" {
   name               = "eks-lb-ext"
   internal           = false  # Set to true if internal LB
   load_balancer_type = "application"
@@ -28,7 +28,7 @@ resource "aws_lb" "example_lb" {
   enable_deletion_protection = true 
   enable_http2               = true
 
-  subnets = module.vpc.private_subnets_ids
+  subnets = module.vpc.private_subnets
 
   enable_cross_zone_load_balancing = true
 
