@@ -41,7 +41,9 @@ jobs:
       - name: Configure kubectl
         run: |
                 aws eks update-kubeconfig --region us-west-2 --name dev-eks-cluster
-                kubectl --kubeconfig /home/runner/work/samcart-devops-assessment/application/k8s/.kube/config get nodes
+                kubectl --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config get nodes
+        env:
+          KUBECONFIG: ${{ runner.workspace }}/application/k8s/.kube/config
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v1
