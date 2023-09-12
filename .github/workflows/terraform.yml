@@ -42,6 +42,16 @@ jobs:
              run: terraform plan -out=tfplan
              working-directory: infrastructure/dev-env
 
+           - name: Confirm Terraform apply
+             run: |
+               read -p "Do you want to apply the Terraform changes? (yes/no): " confirm
+               if [ "$confirm" != "yes" ]; then
+                 echo "Terraform apply was not confirmed. Exiting..."
+                 exit 0
+               fi
+             shell: bash
+             working-directory: infrastructure/dev-env
+     
            - name: Apply Terraform changes
              run: terraform apply tfplan
              working-directory: infrastructure/dev-env
