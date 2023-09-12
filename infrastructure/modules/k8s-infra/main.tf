@@ -1,6 +1,7 @@
 module "eks_cluster" {
   source = "terraform-aws-modules/eks/aws"
-  
+  depends_on = [ module.key_pair ]
+
   cluster_name    = var.eks_cluster_name
   cluster_version = "1.27"
   subnet_ids      = module.vpc.private_subnets
@@ -13,7 +14,7 @@ module "eks_cluster" {
       max_capacity     = 3
       min_capacity     = 1
       instance_type    = "t2.micro"
-      key_name         = module.key_pair.key_name
+      key_name         = "eks-key"
       volume_size      = 20
     }
   }
