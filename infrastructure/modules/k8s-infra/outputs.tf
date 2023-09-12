@@ -14,3 +14,8 @@ output "lb_dns_name" {
 output "s3_bucket_name" {
   value = aws_s3_bucket.example_bucket.id
 }
+
+output "vpc_id" {
+  description = "The ID of the VPC"
+  value       = module.networking.vpc_id
+}
