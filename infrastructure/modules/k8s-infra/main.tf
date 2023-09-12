@@ -1,125 +1,81 @@
-## Using the AWS Registry Module https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest ##
 
-module "eks" { 
-  source  = "terraform-aws-modules/eks/aws"
-  version = "19.16.0"
+################################################################################
+# EKS Module
+################################################################################
 
-  cluster_name    = var.cluster_name
-  cluster_version = "1.27"
+module "eks" {
+  source = "../.."
 
-  cluster_endpoint_public_access  = true
+  cluster_name                   = var.cluster_name
+  cluster_version                = "1.27"
+  cluster_endpoint_public_access = true
 
   cluster_addons = {
+    kube-proxy = {}
+    vpc-cni    = {}
     coredns = {
-      most_recent = true
-    }
-    kube-proxy = {
-      most_recent = true
-    }
-    vpc-cni = {
-      most_recent = true
+      configuration_values = jsonencode({
+        computeType = "Fargate"
+      })
     }
   }
 
-  vpc_id                   = var.vpc_id
-  subnet_ids               = var.subnet_ids
-  control_plane_subnet_ids = ["10.0.1.0/24","10.0.3.0/24","10.0.5.0/24"]
+  vpc_id                   = module.vpc.vpc_id
+  subnet_ids               = module.vpc.private_subnets
+  control_plane_subnet_ids = module.vpc.public_subnets
 
-  # Self Managed Node Group(s)
-  iam_policy_prefixes = [
-    "${local.iam_role_policy_prefix}/AmazonEKSWorkerNodePolicy",
-    "${local.iam_role_policy_prefix}/AmazonEC2ContainerRegistryReadOnly",
-  ]
-  self_managed_node_group_defaults = {
-    instance_type                          = "m6i.large"
-    update_launch_template_default_version = true
+  # Fargate profiles use the cluster primary security group so these are not utilized
+  create_cluster_security_group = false
+  create_node_security_group    = false
+
+  fargate_profile_defaults = {
     iam_role_additional_policies = {
-      AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+      additional = aws_iam_policy.additional.arn
     }
   }
 
-  self_managed_node_groups = {
-    one = {
-      name         = "mixed-1"
-      max_size     = 5
-      desired_size = 2
+  fargate_profiles = merge(
+    {
+      example = {
+        name = "dev"
+        selectors = [
+          {
+            namespace = "backend"
+            labels = {
+              Application = "backend"
+            }
+          },
+          {
+            namespace = "app-*"
+            labels = {
+              Application = "app-wildcard"
+            }
+          }
+        ]
 
-      use_mixed_instances_policy = true
-      mixed_instances_policy = {
-        instances_distribution = {
-          on_demand_base_capacity                  = 0
-          on_demand_percentage_above_base_capacity = 10
-          spot_allocation_strategy                 = "capacity-optimized"
+        # Using specific subnets instead of the subnets supplied for the cluster itself
+        subnet_ids = [module.vpc.private_subnets[1]]
+
+        tags = {
+          Owner = "secondary"
         }
 
-        override = [
-          {
-            instance_type     = "m5.large"
-            weighted_capacity = "1"
-          },
-          {
-            instance_type     = "m6i.large"
-            weighted_capacity = "2"
-          },
+        timeouts = {
+          create = "20m"
+          delete = "20m"
+        }
+      }
+    },
+    { for i in range(3) :
+      "kube-system-${element(split("-", local.azs[i]), 2)}" => {
+        selectors = [
+          { namespace = "kube-system" }
         ]
+        # We want to create a profile per AZ for high availability
+        subnet_ids = [element(module.vpc.private_subnets, i)]
       }
     }
-  }
+  )
 
-  # EKS Managed Node Group(s)
-  eks_managed_node_group_defaults = {
-    instance_types = ["m6i.large", "m5.large", "m5n.large", "m5zn.large"]
-  }
-
-  eks_managed_node_groups = {
-    blue = {}
-    green = {
-      min_size     = 1
-      max_size     = 10
-      desired_size = 1
-
-      instance_types = ["t3.large"]
-      capacity_type  = "SPOT"
-    }
-  }
-
-  # Fargate Profile(s)
-  fargate_profiles = {
-    default = {
-      name = "default"
-      selectors = [
-        {
-          namespace = "default"
-        }
-      ]
-    }
-  }
-
-  # aws-auth configmap
-  manage_aws_auth_configmap = true
-
-  aws_auth_roles = [
-    {
-      rolearn  = "arn:aws:iam::427071048654:role/github-actions-admin"
-      username = "role1"
-      groups   = ["system:masters"]
-    },
-  ]
-
-  aws_auth_users = [
-    {
-      userarn  = "arn:aws:iam::66666666666:user/user1"
-      username = "user1"
-      groups   = ["system:masters"]
-    },
-  ]
-
-  aws_auth_accounts = [
-    "427071048654"
-  ]
-
-  tags = {
-    Environment = "dev"
-    Terraform   = "true"
-  }
+  tags = local.tags
 }
