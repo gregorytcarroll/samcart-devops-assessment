@@ -120,6 +120,7 @@ def bot(index_files_path, document_text):
         generated_response = response.choices[0].text.strip()
         print(f"Response: {generated_response}\n")
 
+
 if __name__ == '__main__':
 
     # Start the Flask app
