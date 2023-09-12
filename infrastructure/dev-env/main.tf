@@ -3,6 +3,6 @@ module "k8s" {
 
   depends_on = [ module.networking ]
 
-  cluster_name = var.cluster_name
+  cluster_name = var.eks_cluster_name
   
 }
