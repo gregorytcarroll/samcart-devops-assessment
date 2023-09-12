@@ -14,6 +14,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    env:
+      AWS_ACCOUNT_ID: 427071048654
+      AWS_REGION: us-west-2
+
     steps:
       - name: configureawscredentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -34,9 +38,6 @@ jobs:
           docker buildx build --platform linux/amd64 -f ./application/app/Dockerfile -t ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/simple-app-repo:${{ github.sha }} .
           aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
           docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/simple-app:${{ github.sha }}
-        env:
-          AWS_ACCOUNT_ID: 427071048654
-          AWS_REGION: us-west-2
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v1
