@@ -91,9 +91,3 @@ variable "default_security_group_name" {
   description = "Name for the default security group"
   type        = string
 }
-
-variable "vpc_tags" {
-  description = "Tags for the VPC"
-  type        = map(string)
-}
-
