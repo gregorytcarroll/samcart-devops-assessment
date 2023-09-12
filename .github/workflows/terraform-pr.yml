@@ -2,8 +2,11 @@
 name: Terraform Workflow
 
 on:
-  pull_request:
-      branches: main
+  push:
+    branches:
+      - main
+    paths:
+          - 'infrastructure'
 
 permissions:
     id-token: write

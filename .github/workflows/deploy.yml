@@ -14,6 +14,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    env:
+      AWS_REGION: us-west-2
+
     steps:
       - name: configureawscredentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -30,13 +33,17 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker buildx create --use
-          docker buildx build --platform linux/amd64 -f ./application/app/Dockerfile -t ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/my-python-app:${{ github.sha }} .
-          aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
-          docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/simple-app-repo:${{ github.sha }}
+              docker buildx create --use
+              docker buildx build --build-arg BUILDKIT_INLINE_CACHE=1 --platform linux/amd64 -f ./application/app/Dockerfile -t 427071048654.dkr.ecr.${AWS_REGION}.amazonaws.com/simple-app-repo:${{ github.sha }} . --load
+              aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin 427071048654.dkr.ecr.${AWS_REGION}.amazonaws.com
+              docker push 427071048654.dkr.ecr.${AWS_REGION}.amazonaws.com/simple-app-repo:${{ github.sha }}
+        
+      - name: Configure kubectl
+        run: |
+                aws eks update-kubeconfig --region us-west-2 --name dev-eks-cluster
+                kubectl config get-contexts
         env:
-          AWS_ACCOUNT_ID: 427071048654
-          AWS_REGION: us-west-2
+          KUBECONFIG: ${{ runner.workspace }}/application/k8s/.kube/config
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v1

@@ -25,7 +25,7 @@ resource "kubernetes_deployment" "k8s-app" {
     spec {
       container {
         name  = "infra-bot"
-        image = "427071048654.dkr.ecr.us-west-2.amazonaws.com/simple-app-repo:latest"
+        image = "427071048654.dkr.ecr.us-west-2.amazonaws.com/simple-app:latest"
         port {
           container_port = 80
         }
