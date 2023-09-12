@@ -4,7 +4,6 @@ variable "vpc_id" {
 
  variable "cluster_name" {
      type = string
-     default = "dev-env-cluster"
  }
   
 variable "subnet_ids" {
