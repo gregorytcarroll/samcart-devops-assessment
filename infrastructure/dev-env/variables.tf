@@ -4,14 +4,6 @@
      type = string
      default = "dev-env-cluster"
  }
-  
-variable "subnet_ids" {
-    type = list(string)
-}
-
-variable "vpc_id" {
-    type = list(string)
-}
 
 ## Networking ##
 
