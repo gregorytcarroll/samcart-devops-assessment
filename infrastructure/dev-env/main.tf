@@ -17,8 +17,11 @@ module "k8s" {
   source = "../modules/k8s-infra"
 
   depends_on = [ module.networking ]
-  
+
   cluster_name = var.cluster_name
+  subnet_ids      = module.networking.private_subnets_ids
+  vpc_id          = module.networking.vpc_id
+  
 }
 
 # module "account-creator" {
