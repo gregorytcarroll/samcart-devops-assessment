@@ -22,7 +22,7 @@ resource "kubernetes_deployment" "k8s-app" {
           app = "infra-bot"
         }
       }
-
+    spec {
       container {
         name  = "infra-bot"
         image = "427071048654.dkr.ecr.us-west-2.amazonaws.com/simple-app-repo:latest"
@@ -31,5 +31,6 @@ resource "kubernetes_deployment" "k8s-app" {
         }
       }
     }
+   }
   }
 }
