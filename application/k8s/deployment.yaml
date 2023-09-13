@@ -25,7 +25,7 @@ metadata:
   name: infra-bot-ingress
 spec:
   rules:
-    - host: eks-lb-ext-1050542204.us-west-2.elb.amazonaws.com
+    - host: gregs-infra-testing-bot.com
       http:
         paths:
           - path: /path

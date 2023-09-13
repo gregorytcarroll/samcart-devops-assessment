@@ -83,6 +83,7 @@ module "vpc" {
   enable_dns_hostnames          = var.enable_dns_hostnames
   manage_default_security_group = var.manage_default_security_group
   default_security_group_name   = var.default_security_group_name
+  map_public_ip_on_launch       = true
   
   public_subnet_tags = {
     "kubernetes.io/cluster/vpc-serverless" = "shared"
