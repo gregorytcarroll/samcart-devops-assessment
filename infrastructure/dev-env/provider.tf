@@ -20,7 +20,8 @@ provider "aws" {
 }
 
 provider "kubernetes" {
-  alias           = "eks"
-  config_context = "dev-context"
+  alias           = "kube-admin"
+  config_context = "dev-eks-context"
+  config_path = "./../application/k8s/.kube/config"
 }
 
