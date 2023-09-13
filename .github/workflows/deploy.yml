@@ -47,6 +47,6 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f ${{ runner.workspace }}/application/k8s/deployment.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config --v=8
+          kubectl apply -f ./application/k8s/deployment.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config --v=8
           kubectl apply -f ${{ runner.workspace }}/application/k8s/service.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config --v=8
           kubectl apply -f ${{ runner.workspace }}/application/k8s/configmap.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config --v=8
