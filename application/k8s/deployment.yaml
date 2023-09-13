@@ -18,7 +18,6 @@ spec:
           ports:
             - containerPort: 80
 
-
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -36,4 +35,5 @@ spec:
                 name: infra-bot-service
                 port:
                   number: 80
+
 
