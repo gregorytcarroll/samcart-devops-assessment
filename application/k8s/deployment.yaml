@@ -18,47 +18,31 @@ spec:
           ports:
             - containerPort: 80
 
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: alb-ingress-controller
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app.kubernetes.io/name: alb-ingress-controller
-#   template:
-#     metadata:
-#       labels:
-#         app.kubernetes.io/name: alb-ingress-controller
-#     spec:
-#       containers:
-#         - name: alb-ingress-controller
-#           image: docker.io/amazon/aws-alb-ingress-controller:latest
-#           args:
-#             - /aws-alb-ingress-controller
-#             - --ingress-class=alb
-#             - --cluster-name=dev-eks-cluster
-#           env:
-#             - name: AWS_REGION
-#               value: us-west-2
+---
 
-# ---
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: infra-bot-ingress
-# spec:
-#   rules:
-#     - host: your-domain.com
-#       http:
-#         paths:
-#           - path: /path
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name: infra-bot-service
-#                 port:
-#                   number: 80
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alb-ingress-controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: alb-ingress-controller
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: alb-ingress-controller
+    spec:
+      containers:
+        - name: alb-ingress-controller
+          image: docker.io/amazon/aws-alb-ingress-controller:latest
+          args:
+            - /aws-alb-ingress-controller
+            - --ingress-class=alb
+            - --cluster-name=testing-eks-cluster
+          env:
+            - name: AWS_REGION
+              value: us-west-2
+
 
