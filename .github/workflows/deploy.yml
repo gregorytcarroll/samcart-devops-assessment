@@ -41,7 +41,7 @@ jobs:
       - name: Configure kubectl
         run: |
                 aws eks update-kubeconfig --region us-west-2 --name testing-eks-cluster
-                kubectl config get-contexts
+                kubectl config get-contexts 2>&1
         env:
           KUBECONFIG: ${{ runner.workspace }}/application/k8s/.kube/config
 
