@@ -2,6 +2,14 @@ resource "aws_ecr_repository" "k8s-app-repo" {
   name = var.repo-name
 }
 
+data "aws_eks_cluster" "cluster" {
+  name = module.eks_cluster.cluster_id
+}
+
+data "aws_eks_cluster_auth" "cluster" {
+  name = module.eks_cluster.cluster_id
+}
+
 provider "kubernetes" {
   host                   = data.aws_eks_cluster.cluster.endpoint
   token                  = data.aws_eks_cluster_auth.cluster.token
