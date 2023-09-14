@@ -23,13 +23,21 @@ provider "aws" {
   region = "us-west-2"
 }
 
+data "aws_eks_cluster" "cluster" {
+  name = "testing-eks-cluster"
+}
+
+data "aws_eks_cluster_auth" "cluster" {
+  name = "testing-eks-cluster"
+}
+
 provider "kubernetes" {
   alias           = "kube-admin"
   load_config_file = false
 
-  host = data.aws_eks_cluster.k8s-cluster.endpoint
+  host = data.aws_eks_cluster.cluster.endpoint
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.k8s-cluster.certificate_authority.0.data)
-  token = data.aws_eks_cluster_auth.k8s-cluster.token
+  token = data.aws_eks_cluster_auth.cluster.token
 
 }
 
