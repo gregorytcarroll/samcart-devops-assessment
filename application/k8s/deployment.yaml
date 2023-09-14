@@ -7,16 +7,16 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: simple-app-deployment
+  name: simple-app-deployment-v2
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: hello-world
+      app: updated-hello-world
   template:
     metadata:
       labels:
-        app: hello-world
+        app: updated-hello-world
     spec:
       containers:
         - name: hello-world
