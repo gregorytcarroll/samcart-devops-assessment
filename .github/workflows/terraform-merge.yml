@@ -16,6 +16,8 @@ jobs:
     
         env:
           AWS_DEFAULT_REGION: us-west-2
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     
         steps:
            - name: configureawscredentials
@@ -24,6 +26,12 @@ jobs:
                role-to-assume: arn:aws:iam::427071048654:role/github-actions-admin
                role-session-name: k8sdeploysession
                aws-region: ${{env.AWS_DEFAULT_REGION}}
+
+           - name: Configure AWS CLI
+             run: |
+                 aws configure set aws_access_key_id  ${{ env.AWS_ACCESS_KEY_ID }}
+                 aws configure set aws_secret_access_key ${{ env.AWS_SECRET_ACCESS_KEY }}
+                 aws configure set region ${{ env.AWS_DEFAULT_REGION }}
         
            - name: Checkout
              uses: actions/checkout@v2

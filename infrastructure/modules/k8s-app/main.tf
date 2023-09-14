@@ -48,6 +48,7 @@ resource "kubernetes_deployment" "app" {
     }
   }
 }
+
 resource "kubernetes_service" "app" {
   metadata {
     name      = "nginx"
