@@ -32,5 +32,5 @@ module "k8s-app" {
 
 module "k8s-auth" {
   source = "../modules/k8s-auth"
-  cluster_name = var.eks_cluster_name
+  eks_cluster_name = var.eks_cluster_name
 }
