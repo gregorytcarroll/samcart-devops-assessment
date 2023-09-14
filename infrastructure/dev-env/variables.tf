@@ -103,10 +103,3 @@ variable "kubernetes_deployment_name" {
     description = "Name of the Kubernetes deployment"
     type        = string
 }
-
-# Variables for the EKS Auth Module
-
-variable "cluster_name" {
-  description = "Name of the EKS cluster"
-  type        = string
-}
