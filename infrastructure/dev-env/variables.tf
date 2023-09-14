@@ -105,3 +105,8 @@ variable "kubernetes_deployment_name" {
 }
 
 # Variables for the EKS Auth Module
+
+variable "cluster_name" {
+  description = "Name of the EKS cluster"
+  type        = string
+}
