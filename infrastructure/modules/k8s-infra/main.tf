@@ -110,3 +110,32 @@ module "vpc" {
 
 }
 
+data "aws_iam_policy_document" "assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Federated"
+      identifiers = ["arn:aws:iam::427071048654:oidc-provider/token.actions.githubusercontent.com"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "token.actions.githubusercontent.com:aud"
+      values   = ["sts.amazonaws.com"]
+    }
+
+    condition {
+      test     = "StringLike"
+      variable = "token.actions.githubusercontent.com:sub"
+      values   = ["repo:gregorytcarroll/*"]
+    }
+  }
+}
+
+resource "aws_iam_role" "github_actions_eks_role" {
+  name               = "github-actions-eks-role"
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
+}
+
+

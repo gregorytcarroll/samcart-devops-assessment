@@ -8,7 +8,8 @@ data "aws_eks_cluster" "eks_cluster" {
 
 provider "kubernetes" {
   host                   = data.aws_eks_cluster.eks_cluster.endpoint
-  token                  = data.aws_eks_cluster.eks_cluster.token
+  config_path            = "./application/k8s/.kube/config"
+  load_config_file       = false 
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks_cluster.certificate_authority[0].data)
 }
 
