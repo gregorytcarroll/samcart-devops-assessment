@@ -21,9 +21,6 @@ terraform {
 
 provider "aws" {
   region = "us-west-2"
-  assume_role {
-    role_arn = "arn:aws:iam::427071048654:role/github-actions-admin"
-  }
 }
 
 provider "kubernetes" {
@@ -34,6 +31,6 @@ provider "kubernetes" {
   host = data.aws_eks_cluster.k8s-cluster.endpoint
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.k8s-cluster.certificate_authority.0.data)
   token = data.aws_eks_cluster_auth.k8s-cluster.token
-  
+
 }
 
