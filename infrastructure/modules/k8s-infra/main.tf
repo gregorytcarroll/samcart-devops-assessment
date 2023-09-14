@@ -131,3 +131,18 @@ resource "aws_iam_role" "github_actions_eks_role" {
 }
 
 
+resource "aws_ecr_repository" "k8s-app-repo" {
+  image_tag_mutability = "MUTABLE"
+  name                 = "simple-app-repo"
+  tags                 = {} 
+  tags_all             = {} 
+
+
+  encryption_configuration {
+          encryption_type = "AES256"
+        }
+
+  image_scanning_configuration {
+          scan_on_push = true
+        }
+}

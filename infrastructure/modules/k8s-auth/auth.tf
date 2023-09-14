@@ -28,18 +28,6 @@ locals {
 
 }
 
-resource "kubernetes_config_map" "aws_auth-dev" {
-  metadata {
-    name      = "aws-auth-dev"
-    namespace = "kube-system"
-  }
-
-  data = {
-    mapRoles    = replace(yamlencode(local.roles_to_map), "\"", local.yaml_quote)
-    mapUsers    = replace(yamlencode(local.users_to_map), "\"", local.yaml_quote)
-  }
-}
-
 
 resource "kubernetes_cluster_role_binding" "kube-admin-role-binding" {
   metadata {

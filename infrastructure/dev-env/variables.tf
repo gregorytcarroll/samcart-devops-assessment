@@ -91,15 +91,3 @@ variable "default_security_group_name" {
   description = "Name for the default security group"
   type        = string
 }
-
-# Variables for the ECR Module
-
-variable "repo-name" {
-    description = "Name of the ECR repository"
-    type        = string
-}
-
-variable "kubernetes_deployment_name" {
-    description = "Name of the Kubernetes deployment"
-    type        = string
-}
