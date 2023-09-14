@@ -2,35 +2,61 @@ resource "aws_ecr_repository" "k8s-app-repo" {
   name = var.repo-name
 }
 
-resource "kubernetes_deployment" "k8s-app" {
+provider "kubernetes" {
+  host                   = data.aws_eks_cluster.cluster.endpoint
+  token                  = data.aws_eks_cluster_auth.cluster.token
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
+}
+
+
+resource "kubernetes_namespace" "app" {
   metadata {
-    name = var.kubernetes_deployment_name
+    name = "nginx"
   }
-
+}
+resource "kubernetes_deployment" "app" {
+  metadata {
+    name      = "nginx"
+    namespace = kubernetes_namespace.app.metadata.0.name
+  }
   spec {
-    replicas = 3
-
+    replicas = 2
     selector {
       match_labels = {
-        app = "infra-bot"
+        app = "hello-world"
       }
     }
-
     template {
       metadata {
         labels = {
-          app = "infra-bot"
+          app = "hello-world"
         }
       }
-    spec {
-      container {
-        name  = "infra-bot"
-        image = "427071048654.dkr.ecr.us-west-2.amazonaws.com/simple-app:latest"
-        port {
-          container_port = 80
+      spec {
+        container {
+          image = "nginx"
+          name  = "nginx-container"
+          port {
+            container_port = 80
+          }
         }
       }
     }
-   }
+  }
+}
+resource "kubernetes_service" "app" {
+  metadata {
+    name      = "nginx"
+    namespace = kubernetes_namespace.app.metadata.0.name
+  }
+  spec {
+    selector = {
+      app = kubernetes_deployment.app.spec.0.template.0.metadata.0.labels.app
+    }
+    type = "LoadBalancer"
+    port {
+      port        = 80
+      target_port = 80
+    }
   }
 }
