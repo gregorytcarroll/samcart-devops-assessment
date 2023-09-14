@@ -100,3 +100,22 @@ module "vpc" {
   }
 
 }
+
+###################
+# Kubernetes Auth #
+###################
+
+locals {
+    yaml_quote = ""
+
+    roles_to_map = [
+        {
+            rolearn = "arn:aws:iam::427071048654:role/github-actions-admin"
+            username = "system:node:{{EC2PrivateDNSName}}"
+            groups = [
+                "system:bootstrappers",
+                "system:nodes"
+            ]
+        }
+    ]
+}
