@@ -4,7 +4,7 @@ module "eks_cluster" {
   cluster_name    = var.eks_cluster_name
   cluster_version = "1.27"
   subnet_ids      = module.vpc.public_subnets
-  role_arn        = "arn:aws:iam::427071048654:role/github-actions-admin"
+  iam_role_arn    = "arn:aws:iam::427071048654:role/github-actions-admin"
   vpc_id          = module.vpc.vpc_id
   cluster_endpoint_public_access = true
   cluster_endpoint_private_access = false
