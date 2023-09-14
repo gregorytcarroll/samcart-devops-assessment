@@ -1,7 +1,7 @@
 provider "aws" {
     region              = "us-west-2"
     assume_role {
-       role_arn = "arn:aws:iam::427071048654:role/github-actions-admin"
+       role_arn = "arn:aws:iam::427071048654:role/kube-admin-role"
     }
 }
 
