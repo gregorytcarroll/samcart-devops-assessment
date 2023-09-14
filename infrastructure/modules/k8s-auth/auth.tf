@@ -28,9 +28,9 @@ locals {
 
 }
 
-resource "kubernetes_config_map" "aws_auth" {
+resource "kubernetes_config_map" "aws_auth-dev" {
   metadata {
-    name      = "aws-auth"
+    name      = "aws-auth-dev"
     namespace = "kube-system"
   }
 
