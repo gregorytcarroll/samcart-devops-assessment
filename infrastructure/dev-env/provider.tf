@@ -25,8 +25,7 @@ provider "aws" {
 
 provider "kubernetes" {
   alias           = "kube-admin"
-  config_context = "dev-eks-context"
-  config_path = "./../application/k8s/.kube/config"
+  load_config_file = false
 
   host = data.aws_eks_cluster.k8s-cluster.endpoint
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.k8s-cluster.certificate_authority.0.data)
