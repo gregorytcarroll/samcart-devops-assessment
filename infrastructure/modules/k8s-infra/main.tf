@@ -4,11 +4,12 @@ module "eks_cluster" {
   cluster_name    = var.eks_cluster_name
   cluster_version = "1.27"
   subnet_ids      = module.vpc.public_subnets
+  iam_role_arn    = "arn:aws:iam::427071048654:role/github-actions-admin"
   vpc_id          = module.vpc.vpc_id
   cluster_endpoint_public_access = true
   cluster_endpoint_private_access = false
 
-  # EKS worker node settings (customize as needed)
+  # EKS worker node settings
   eks_managed_node_groups = {
     eks_nodes = {
       desired_capacity = 2
@@ -101,21 +102,32 @@ module "vpc" {
 
 }
 
-###################
-# Kubernetes Auth #
-###################
+data "aws_iam_policy_document" "assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
 
-locals {
-    yaml_quote = ""
+    principals {
+      type        = "Federated"
+      identifiers = ["arn:aws:iam::427071048654:oidc-provider/token.actions.githubusercontent.com"]
+    }
 
-    roles_to_map = [
-        {
-            rolearn = "arn:aws:iam::427071048654:role/github-actions-admin"
-            username = "system:node:{{EC2PrivateDNSName}}"
-            groups = [
-                "system:bootstrappers",
-                "system:nodes"
-            ]
-        }
-    ]
+    condition {
+      test     = "StringEquals"
+      variable = "token.actions.githubusercontent.com:aud"
+      values   = ["sts.amazonaws.com"]
+    }
+
+    condition {
+      test     = "StringLike"
+      variable = "token.actions.githubusercontent.com:sub"
+      values   = ["repo:gregorytcarroll/*"]
+    }
+  }
 }
+
+resource "aws_iam_role" "github_actions_eks_role" {
+  name               = "github-actions-eks-role"
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
+}
+
+
