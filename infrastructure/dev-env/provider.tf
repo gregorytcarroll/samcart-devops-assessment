@@ -21,11 +21,18 @@ terraform {
 
 provider "aws" {
   region = "us-west-2"
+  assume_role {
+    role_arn = "arn:aws:iam::123456789012:user/kube-admin"
+  }
 }
 
 provider "kubernetes" {
   alias           = "kube-admin"
   config_context = "dev-eks-context"
   config_path = "./../application/k8s/.kube/config"
+
+  host = data.aws_eks_cluster.k8s-cluster.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.k8s-cluster.certificate_authority.0.data)
+  token = data.aws_eks_cluster_auth.k8s-cluster.token
 }
 
