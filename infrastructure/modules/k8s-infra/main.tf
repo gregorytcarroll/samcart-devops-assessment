@@ -110,7 +110,7 @@ locals {
 
     roles_to_map = [
         {
-            rolearn = "arn:aws:iam::123456789012:user/kube-admin"
+            rolearn = "arn:aws:iam::427071048654:user/kube-admin"
             username = "system:node:{{EC2PrivateDNSName}}"
             groups = [
                 "system:bootstrappers",
