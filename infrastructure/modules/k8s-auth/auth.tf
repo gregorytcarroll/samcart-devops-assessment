@@ -90,7 +90,7 @@ resource "kubernetes_cluster_role_binding" "cluster-viewer-role-binding" {
   role_ref {
     api_group = "rbac.authorization.k8s.io"
     kind      = "ClusterRole"
-    name      = var.assumed_cluster_role
+    name      = "cluster-developer-role"
   }
   subject {
     kind      = "User"

@@ -17,7 +17,7 @@ data "aws_iam_policy_document" "kube-admin-role-assume-policy-document" {
     effect  = "Allow"
     actions = ["sts:AssumeRole"]
     principals {
-      identifiers = [var.iam_user_arn_root]
+      identifiers = ["arn:aws:iam::427071048654:user/kube-admin"]
       type        = "AWS"
     }
   }
