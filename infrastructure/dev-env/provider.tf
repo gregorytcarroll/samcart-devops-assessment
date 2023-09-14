@@ -22,7 +22,7 @@ terraform {
 provider "aws" {
   region = "us-west-2"
   assume_role {
-    role_arn = "arn:aws:iam::427071048654:user/kube-admin"
+    role_arn = "arn:aws:iam::427071048654:role/github-actions-admin"
   }
 }
 
