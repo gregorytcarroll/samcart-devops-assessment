@@ -132,10 +132,8 @@ resource "aws_iam_role" "github_actions_eks_role" {
 
 
 resource "aws_ecr_repository" "k8s-app-repo" {
-  id                   = "simple-app-repo" 
   image_tag_mutability = "MUTABLE"
   name                 = "simple-app-repo"
-  repository_url       = "427071048654.dkr.ecr.us-west-2.amazonaws.com/simple-app-repo" 
   tags                 = {} 
   tags_all             = {} 
 
@@ -145,6 +143,6 @@ resource "aws_ecr_repository" "k8s-app-repo" {
         }
 
   image_scanning_configuration {
-          scan_on_push = false
+          scan_on_push = true
         }
 }
