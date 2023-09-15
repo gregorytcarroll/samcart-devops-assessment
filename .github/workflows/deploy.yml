@@ -58,5 +58,5 @@ jobs:
             kubectl get pods -n default -o json | \
               jq -r '.items[] | select(((now - (.metadata.creationTimestamp | fromdate)) / 3600) >= 24) | .metadata.name' | \
               xargs -I {} kubectl delete pod {} -n default
-          env:
+        env:
             KUBECONFIG: ${{ runner.workspace }}/application/k8s/.kube/config
