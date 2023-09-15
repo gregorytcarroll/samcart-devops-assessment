@@ -25,23 +25,26 @@ spec:
           ports:
             - containerPort: 80
 
+
 --- 
 
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: my-app-ingress
-  annotations:
-    kubernetes.io/ingress.class: alb
 spec:
   rules:
-    - host: gregs-testing-infra-bot.com
+    - host: my-app.example.com
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: updated-hello-world
-              servicePort: 80
+              service:
+                name: updated-hello-world
+                port:
+                  number: 80
+
 
 
 
