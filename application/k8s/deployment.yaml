@@ -8,19 +8,19 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: updated-hello-world
+  name: webpage-app
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: updated-hello-world
+      app: webpage-app
   template:
     metadata:
       labels:
-        app: updated-hello-world
+        app: webpage-app
     spec:
       containers:
-        - name: updated-hello-world
+        - name: webpage-app
           image: 427071048654.dkr.ecr.us-west-2.amazonaws.com/simple-app-repo:latest
           ports:
             - containerPort: 80
@@ -41,7 +41,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: updated-hello-world
+                name: webpage-app
                 port:
                   number: 80
 
