@@ -54,6 +54,12 @@ resource "kubernetes_cluster_role" "cluster-admin" {
     resources  = ["*"]
     verbs      = ["*"]
   }
+
+  lifecycle {
+    ignore_changes = [
+      metadata
+    ]
+  }
 }
 
 resource "kubernetes_cluster_role" "cluster-developer-role" {
