@@ -7,3 +7,15 @@ data:
   mapUsers: |
     - userarn: arn:aws:iam::427071048654:user/kube-admin
       username: kube-admin
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: namespace-reader
+rules:
+- apiGroups: [""]
+  resources: ["namespaces"]
+  verbs: ["list"]
+

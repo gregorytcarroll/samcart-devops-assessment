@@ -40,19 +40,19 @@ resource "kubernetes_cluster_role_binding" "kube-admin-role-binding" {
   }
   subject {
     kind      = "User"
-    name      = "kube-admin-role"
+    name      = "kube-admin"
     api_group = "rbac.authorization.k8s.io"
   }
 }
 
-resource "kubernetes_cluster_role" "cluster-viewer-role" {
+resource "kubernetes_cluster_role" "cluster-admin" {
   metadata {
-    name = "cluster-viewer-role"
+    name = "cluster-admin"
   }
   rule {
     api_groups = [""]
-    resources  = ["namespaces", "pods", "nodes", "configmaps", "clusterroles", "endpoints", "ingresses", "deployments", "services", "events", "persistentvolumeclaims", "persistentvolumes", "cronjobs", "horizontalpodautoscalers", "pods/log", "jobs"]
-    verbs      = ["get", "list", "watch"]
+    resources  = ["*"]
+    verbs      = ["*"]
   }
 }
 
