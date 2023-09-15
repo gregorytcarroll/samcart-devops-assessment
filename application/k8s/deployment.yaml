@@ -4,10 +4,11 @@ metadata:
   name: nginx
 
 ---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: simple-app-deployment-v2
+  name: updated-hello-world
 spec:
   replicas: 2
   selector:
@@ -24,46 +25,25 @@ spec:
           ports:
             - containerPort: 80
 
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: updated-hello-world-ingress
-spec:
-  rules:
-    - host: gregs-infra-testing-bot.com
-      http:
-        paths:
-          - path: /path
-            pathType: Prefix
-            backend:
-              service:
-                name: updated-hello-world-service
-                port:
-                  number: 80
-
 --- 
 
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: extensions/v1beta1
+kind: Ingress
 metadata:
-  name: nginx
-  namespace: nginx 
+  name: my-app-ingress
+  annotations:
+    kubernetes.io/ingress.class: alb
 spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: updated-hello-world
-  template:
-    metadata:
-      labels:
-        app: updated-hello-world
-    spec:
-      containers:
-        - name: nginx-container
-          image: nginx
-          ports:
-            - containerPort: 80
+  rules:
+    - host: gregs-testing-infra-bot.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: updated-hello-world
+              servicePort: 80
+
+
 
 
 
