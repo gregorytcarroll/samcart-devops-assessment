@@ -52,3 +52,11 @@ jobs:
           kubectl apply -f ./application/k8s/deployment.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config 
           kubectl apply -f ./application/k8s/service.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config 
           kubectl apply -f ./application/k8s/configmap.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config
+      
+      - name: Delete testing pods over 24 hours
+        run: |
+            kubectl get pods -n default -o json | \
+              jq -r '.items[] | select(((now - (.metadata.creationTimestamp | fromdate)) / 3600) >= 24) | .metadata.name' | \
+              xargs -I {} kubectl delete pod {} -n default
+          env:
+            KUBECONFIG: ${{ runner.workspace }}/application/k8s/.kube/config
