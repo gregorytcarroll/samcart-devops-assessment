@@ -12,8 +12,8 @@ module "eks_cluster" {
   # EKS worker node settings
   eks_managed_node_groups = {
     eks_nodes = {
-      desired_capacity = 2
-      max_capacity     = 3
+      desired_capacity = 1
+      max_capacity     = 2
       min_capacity     = 1
       instance_type    = "t2.micro"
       key_name         = "eks-key"
