@@ -34,7 +34,7 @@ metadata:
   name: my-app-ingress
 spec:
   rules:
-    - host: my-app.example.com
+    - host: gregs-testing-infra-bot.com
       http:
         paths:
           - path: /
