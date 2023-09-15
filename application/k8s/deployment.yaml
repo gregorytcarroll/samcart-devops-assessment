@@ -37,7 +37,7 @@ spec:
     - host: gregs-testing-infra-bot.com
       http:
         paths:
-          - path: /
+          - path: /first
             pathType: Prefix
             backend:
               service:

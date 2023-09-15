@@ -30,23 +30,78 @@ module "key_pair" {
 }
 
 
-resource "aws_lb" "dev_lb" {
-  name               = "eks-lb-ext"
-  internal           = false  # Set to true if internal LB
-  load_balancer_type = "application"
+module "application_load_balancer" {
+  source  = "infrablocks/application-load-balancer/aws"
+  version = "4.0.0"
 
-  enable_deletion_protection = true 
-  enable_http2               = true
+  region     = "us-west-2"
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids =  module.vpc.public_subnets
 
-  subnets = module.vpc.public_subnets
+  component             = "eks-app"
+  deployment_identifier = "dev"
 
-  enable_cross_zone_load_balancing = true
+  domain_name     = "gregs-testing-infra-bot.com"
 
-  tags = {
-    Name = "eks-lb-ext"
-  }
+  listeners = [
+    {
+      lb_port            = 443
+      lb_protocol        = "HTTPS"
+      instance_port      = 443
+      instance_protocol  = "HTTPS"
+      ssl_certificate_id = aws_acm_certificate.cert.arn
+    },
+    {
+      lb_port           = 80
+      lb_protocol       = "TCP"
+      instance_port     = 80
+      instance_protocol = "TCP"
+    }
+  ]
+
+  access_control = [
+    {
+      lb_port       = 443
+      instance_port = 443
+      allow_cidr    = "0.0.0.0/0"
+    },
+    {
+      lb_port       = 80
+      instance_port = 80
+      allow_cidr    = "0.0.0.0/0"
+    }
+  ]
+
+  egress_cidrs = "0.0.0.0/0"
+
+  health_check_target              = "HTTPS:443/ping"
+  health_check_timeout             = 10
+  health_check_interval            = 30
+  health_check_unhealthy_threshold = 5
+  health_check_healthy_threshold   = 5
+
+  enable_cross_zone_load_balancing = "yes"
+
+  enable_connection_draining  = "yes"
+  connection_draining_timeout = 60
+
+  idle_timeout = 60
+
+  expose_to_public_internet = "yes"
 }
 
+resource "aws_acm_certificate" "cert" {
+  domain_name       = "gregs-testing-infra-bot.com"
+  validation_method = "DNS"
+
+  tags = {
+    Environment = "dev"
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
 
 resource "aws_s3_bucket" "eks_bucket" {
   bucket = "dev-eks-bucket"
