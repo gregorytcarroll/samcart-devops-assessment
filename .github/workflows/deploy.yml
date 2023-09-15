@@ -35,6 +35,7 @@ jobs:
         run: |
               docker buildx create --use
               docker buildx build --build-arg BUILDKIT_INLINE_CACHE=1 --platform linux/amd64 -f ./application/app/Dockerfile -t 427071048654.dkr.ecr.${AWS_REGION}.amazonaws.com/simple-app-repo:${{ github.sha }} . --load
+              docker images --filter reference=simple-app-repo
               aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin 427071048654.dkr.ecr.${AWS_REGION}.amazonaws.com
               docker push 427071048654.dkr.ecr.${AWS_REGION}.amazonaws.com/simple-app-repo:${{ github.sha }}
         
