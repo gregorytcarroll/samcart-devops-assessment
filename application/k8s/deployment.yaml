@@ -19,7 +19,7 @@ spec:
         app: updated-hello-world
     spec:
       containers:
-        - name: hello-world
+        - name: updated-hello-world
           image: 427071048654.dkr.ecr.us-west-2.amazonaws.com/simple-app-repo:latest
           ports:
             - containerPort: 80
@@ -28,7 +28,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: hello-world-ingress
+  name: updated-hello-world-ingress
 spec:
   rules:
     - host: gregs-infra-testing-bot.com
@@ -38,7 +38,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: hello-world-service
+                name: updated-hello-world-service
                 port:
                   number: 80
 
@@ -53,11 +53,11 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: hello-world
+      app: updated-hello-world
   template:
     metadata:
       labels:
-        app: hello-world
+        app: updated-hello-world
     spec:
       containers:
         - name: nginx-container
