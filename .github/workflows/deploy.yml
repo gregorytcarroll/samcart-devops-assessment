@@ -56,6 +56,16 @@ jobs:
           kubectl apply -f ./application/k8s/deployment.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config 
           kubectl apply -f ./application/k8s/service.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config 
           kubectl apply -f ./application/k8s/configmap.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config
+
+      - name: Delete old deployments
+        run: |
+            CURRENT_DEPLOYMENT="webpage-app"
+            NAMESPACE="default"
+            kubectl get deployments -n $NAMESPACE -o custom-columns=":metadata.name" --no-headers | \
+              grep -v "$CURRENT_DEPLOYMENT" | \
+              xargs -I {} kubectl delete deployment {} -n $NAMESPACE
+        env:
+            KUBECONFIG: ${{ runner.workspace }}/application/k8s/.kube/config
       
       - name: Delete testing pods over 24 hours
         run: |

@@ -1,11 +1,12 @@
 # .github/workflows/terraform.yml
-name: Terraform Workflow PR
+name: Terraform Workflow
 
 on:
   pull_request:
     branches:
       - main
-      - 'infrastructure/**'
+    paths:
+          - 'infrastructure'
 
 permissions:
     id-token: write
