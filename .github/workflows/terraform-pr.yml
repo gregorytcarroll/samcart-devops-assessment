@@ -4,7 +4,7 @@ name: Terraform Workflow
 on:
   pull_request:
     paths:
-      - './infrastructure'
+      - infrastructure/dev-env
     branches:
       - main
 
