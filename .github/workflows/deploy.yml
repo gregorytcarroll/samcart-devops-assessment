@@ -60,7 +60,7 @@ jobs:
       - name: Delete old deployments
         run: |
             CURRENT_DEPLOYMENT="webpage-app"
-            NAMESPACE="nginx"
+            NAMESPACE="default"
             kubectl get deployments -n $NAMESPACE -o custom-columns=":metadata.name" --no-headers | \
               grep -v "$CURRENT_DEPLOYMENT" | \
               xargs -I {} kubectl delete deployment {} -n $NAMESPACE
