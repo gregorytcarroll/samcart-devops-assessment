@@ -3,10 +3,9 @@ name: Terraform Workflow
 
 on:
   pull_request:
-    paths:
-      - infrastructure/dev-env
     branches:
       - main
+      - 'infrastructure/**'
 
 permissions:
     id-token: write

@@ -75,6 +75,7 @@ resource "kubernetes_cluster_role" "cluster-developer-role" {
     verbs      = ["get", "list", "watch", "create"]
   }
 }
+
 resource "kubernetes_cluster_role_binding" "cluster-viewer-role-binding" {
   metadata {
     name = "cluster-viewer-role-binding"
