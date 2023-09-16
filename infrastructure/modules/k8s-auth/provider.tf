@@ -1,13 +1,14 @@
 provider "aws" {
     region              = "us-west-2"
+
 }
 
 data "aws_eks_cluster" "target-cluster" {
-   name = module.eks_cluster.eks_cluster_name
+   name = var.eks_cluster_name
 }
 
 data "aws_eks_cluster_auth" "target-cluster-auth" {
-    name = module.eks_cluster.eks_cluster_name
+    name = var.eks_cluster_name
 }
 
 provider "kubernetes" {

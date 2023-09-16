@@ -1,5 +1,5 @@
 # EKS Cluster Variables
-eks_cluster_name            = "app-eks-cluster"
+eks_cluster_name            = "testing-eks-cluster"
 eks_cluster_version         = 1.21
 eks_node_desired_capacity   = 2
 eks_node_max_capacity       = 3
