@@ -1,5 +1,6 @@
 provider "aws" {
     region              = "us-west-2"
+
 }
 
 data "aws_eks_cluster" "target-cluster" {

@@ -21,6 +21,4 @@ manage_default_security_group = true
 default_security_group_name = "vpc-serverless-security-group"
 
 # ECR Variables
-
 repo-name = "simple-app-repo"
-kubernetes_deployment_name = "simple-app-deployment"

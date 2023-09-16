@@ -23,9 +23,7 @@ locals {
                 "system:masters"
             ]
         }
-
     ]
-
 }
 
 
@@ -54,6 +52,12 @@ resource "kubernetes_cluster_role" "cluster-admin" {
     resources  = ["*"]
     verbs      = ["*"]
   }
+
+  lifecycle {
+    ignore_changes = [
+      metadata
+    ]
+  }
 }
 
 resource "kubernetes_cluster_role" "cluster-developer-role" {
@@ -71,6 +75,7 @@ resource "kubernetes_cluster_role" "cluster-developer-role" {
     verbs      = ["get", "list", "watch", "create"]
   }
 }
+
 resource "kubernetes_cluster_role_binding" "cluster-viewer-role-binding" {
   metadata {
     name = "cluster-viewer-role-binding"
