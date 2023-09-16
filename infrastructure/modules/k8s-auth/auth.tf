@@ -23,9 +23,7 @@ locals {
                 "system:masters"
             ]
         }
-
     ]
-
 }
 
 
