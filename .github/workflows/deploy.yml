@@ -45,7 +45,7 @@ jobs:
         
       - name: Configure kubectl
         run: |
-          aws eks update-kubeconfig --region us-west-2 --name app-eks-cluster --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config --alias kube-admin
+          aws eks update-kubeconfig --region us-west-2 --name testing-eks-cluster --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config --alias kube-admin
           kubectl config get-contexts
           kubectl config use-context kube-admin
         env:
