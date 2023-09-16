@@ -1,5 +1,5 @@
 # .github/workflows/terraform.yml
-name: Terraform Workflow
+name: Terraform Workflow PR
 
 on:
   pull_request:

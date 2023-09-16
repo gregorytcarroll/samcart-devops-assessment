@@ -6,7 +6,7 @@ on:
   push:
     branches: main 
   workflow_run:
-    workflows: ["Terraform Workflow"]
+    workflows: ["Terraform Workflow Merge"]
     types:
       - completed
 
