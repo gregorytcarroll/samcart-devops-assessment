@@ -34,14 +34,14 @@ metadata:
   name: my-app-ingress
 spec:
   rules:
-    - host: gregs-testing-infra-bot.com
+    - host: 0.0.0.0
       http:
         paths:
           - path: /first
             pathType: Prefix
             backend:
               service:
-                name: nginx-service-nodeport
+                name: webpage-app
                 port:
                   number: 80
 
