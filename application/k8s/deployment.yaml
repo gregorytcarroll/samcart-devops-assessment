@@ -34,7 +34,7 @@ metadata:
   name: my-app-ingress
 spec:
   rules:
-    - host: 0.0.0.0
+    - host: eks-lb-ext-1050542204.us-west-2.elb.amazonaws.com
       http:
         paths:
           - path: /first
