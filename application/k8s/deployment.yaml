@@ -41,9 +41,10 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: webpage-app
+                name: nginx-service-nodeport
                 port:
                   number: 80
+
 
 
 
