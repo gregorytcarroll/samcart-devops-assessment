@@ -4,4 +4,5 @@ WORKDIR /app
 COPY . /app/
 RUN pip freeze > requirements.txt
 EXPOSE 5000
+ENTRYPOINT [ "flask" ]
 CMD ["flask", "run", "--host", "0.0.0.0"]
