@@ -10,7 +10,7 @@ kind: Deployment
 metadata:
   name: webpage-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: webpage-app
