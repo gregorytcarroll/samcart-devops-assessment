@@ -25,6 +25,7 @@ rules:
       - configmaps
       - ingressclasses
       - targetgroupbindings
+      - configmaps
     verbs:
       - get
       - list

@@ -36,6 +36,10 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "alb"
 spec:
+  tls:
+    - hosts:
+        - eks-lb-ext-1050542204.us-west-2.elb.amazonaws.com
+      secretName: eks-lb-ext-1050542204.us-west-2.elb.amazonaws-com-tls
   rules:
     - host: eks-lb-ext-1050542204.us-west-2.elb.amazonaws.com
       http:

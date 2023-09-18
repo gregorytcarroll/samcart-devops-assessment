@@ -1,0 +1,30 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: gregscarroll@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+ 
+ ---
+
+ apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: eks-lb-ext-1050542204.us-west-2.elb.amazonaws-com
+spec:
+  secretName: eks-lb-ext-1050542204.us-west-2.elb.amazonaws-com-tls
+  duration: 2160h # 90 days
+  renewBefore: 360h # 15 days
+  issuerRef:
+    name: letsencrypt-staging # Use the issuer name you created
+  commonName: eks-lb-ext-1050542204.us-west-2.elb.amazonaws.com
+  dnsNames:
+    - eks-lb-ext-1050542204.us-west-2.elb.amazonaws.com
