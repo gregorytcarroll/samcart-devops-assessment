@@ -70,7 +70,7 @@ spec:
         ports:
         - containerPort: 5000
         env:
-          - name: webpage-app
+          - name: webpage-app-service
             valueFrom:
               fieldRef:
                 fieldPath: metadata.name
@@ -80,5 +80,4 @@ spec:
                 fieldPath: metadata.namespace
         args:
         - /nginx-ingress-controller
-        - --publish-service=default/webpage-app-service
-        - --enable-ingress-class=false
+        - --publish-service=$POD_NAMESPACE/$POD_NAME
