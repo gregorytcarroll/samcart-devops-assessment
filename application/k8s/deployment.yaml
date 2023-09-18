@@ -47,7 +47,7 @@ spec:
       - image: 427071048654.dkr.ecr.us-west-2.amazonaws.com/simple-app-repo:latest
         name: webpage-app
         ports:
-        - containerPort: 80
+        - containerPort: 5000
 
 
 
