@@ -62,13 +62,12 @@ metadata:
 spec:
   tls:
     - hosts:
-        - eks-lb-ext-1050542204.us-west-2.elb.amazonaws.com
-      secretName: eks-lb-ext-1050542204.us-west-2.elb.amazonaws-com-tls
+        - a068243a6363e432fa112004c9e4fbe3-2132795755.us-west-2.elb.amazonaws.com
   rules:
-    - host: eks-lb-ext-1050542204.us-west-2.elb.amazonaws.com
+    - host: a068243a6363e432fa112004c9e4fbe3-2132795755.us-west-2.elb.amazonaws.com
       http:
         paths:
-          - path: /first
+          - path: /*
             pathType: Prefix
             backend:
               service:
