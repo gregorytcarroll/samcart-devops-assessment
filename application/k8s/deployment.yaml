@@ -3,27 +3,51 @@ kind: Namespace
 metadata:
   name: default
 
+# ---
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: webpage-app
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: webpage-app
+#   template:
+#     metadata:
+#       labels:
+#         app: webpage-app
+#     spec:
+#       containers:
+#         - name: webpage-app
+#           image: 427071048654.dkr.ecr.us-west-2.amazonaws.com/simple-app-repo:latest
+#           ports:
+#             - containerPort: 5000
+
 ---
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/name: webpage-app
   name: webpage-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: webpage-app
+      app.kubernetes.io/name: webpage-app
   template:
     metadata:
       labels:
-        app: webpage-app
+        app.kubernetes.io/name: webpage-app
     spec:
       containers:
-        - name: webpage-app
-          image: 427071048654.dkr.ecr.us-west-2.amazonaws.com/simple-app-repo:latest
-          ports:
-            - containerPort: 5000
+      - image: 427071048654.dkr.ecr.us-west-2.amazonaws.com/simple-app-repo:latest
+        name: webpage-app
+        ports:
+        - containerPort: 5000
 
 
 --- 

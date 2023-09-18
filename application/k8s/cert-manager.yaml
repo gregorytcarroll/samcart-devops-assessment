@@ -12,13 +12,15 @@ spec:
     - http01:
         ingress:
           class: nginx
+          ingressClassName: nginx
  
  ---
 
- apiVersion: cert-manager.io/v1
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: eks-lb-ext-1050542204.us-west-2.elb.amazonaws-com
+  namespace: default
 spec:
   secretName: eks-lb-ext-1050542204.us-west-2.elb.amazonaws-com-tls
   duration: 2160h # 90 days
