@@ -4,7 +4,7 @@ metadata:
   name: ingress-controller-role
 rules:
   - apiGroups: [""]
-    resources: ["pods", "services", "configmaps", "secrets", "namespaces", "endpoints", "ingressclasses"]
+    resources: ["pods", "services", "configmaps", "secrets"]
     verbs: ["get", "list"]
 
 ---
@@ -81,3 +81,4 @@ spec:
         args:
         - /nginx-ingress-controller
         - --publish-service=default/webpage-app-service
+        - --enable-ingress-class=false
