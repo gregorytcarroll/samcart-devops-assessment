@@ -4,7 +4,7 @@ metadata:
   name: ingress-controller-role
 rules:
   - apiGroups: [""]
-    resources: ["pods", "services", "configmaps", "secrets"]
+    resources: ["pods", "services", "configmaps", "secrets", "namespaces", "endpoints", "ingressclasses"]
     verbs: ["get", "list"]
 
 ---
