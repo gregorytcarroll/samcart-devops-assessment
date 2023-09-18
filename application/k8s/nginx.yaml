@@ -12,7 +12,7 @@ metadata:
   name: aws-load-balancer-controller-role
 rules:
   - apiGroups:
-      - ""
+      - "networking.k8s.io"
     resources:
       - services
       - endpoints
@@ -21,6 +21,7 @@ rules:
       - events
       - ingresses
       - configmaps
+      - ingressclasses
     verbs:
       - get
       - list
