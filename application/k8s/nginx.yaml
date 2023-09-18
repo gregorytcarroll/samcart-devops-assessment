@@ -55,13 +55,9 @@ spec:
         app: aws-load-balancer-controller
     spec:
       serviceAccountName: aws-load-balancer-controller
-      initContainers:
-        - name: image-pull
-          image: docker
-          command: ["docker", "pull", "amazon/aws-load-balancer-controller:v2.2.2"]
       containers:
         - name: controller
-          image: amazon/aws-load-balancer-controller:v2.2.2  # Use the desired version
+          image: amazon/aws-alb-ingress-controller:latest  # Use the desired version
           args:
             - --cluster-name=testing-eks-cluster
 
