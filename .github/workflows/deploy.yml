@@ -78,3 +78,4 @@ jobs:
               xargs -I {} kubectl delete pod {} -n default
         env:
             KUBECONFIG: ${{ runner.workspace }}/application/k8s/.kube/config
+            
