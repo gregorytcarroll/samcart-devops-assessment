@@ -30,24 +30,6 @@ module "key_pair" {
 }
 
 
-resource "aws_lb" "dev_lb" {
-  name               = "eks-lb-ext"
-  internal           = false  # Set to true if internal LB
-  load_balancer_type = "application"
-
-  enable_deletion_protection = true 
-  enable_http2               = true
-
-  subnets = module.vpc.public_subnets
-
-  enable_cross_zone_load_balancing = true
-
-  tags = {
-    Name = "eks-lb-ext"
-  }
-}
-
-
 resource "aws_s3_bucket" "eks_bucket" {
   bucket = "dev-eks-bucket"
   acl    = "private" 
