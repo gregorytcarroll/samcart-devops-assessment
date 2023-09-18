@@ -30,8 +30,6 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/name: webpage-app
   name: webpage-app
 spec:
   replicas: 1
