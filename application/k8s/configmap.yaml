@@ -19,3 +19,13 @@ rules:
   resources: ["namespaces"]
   verbs: ["list"]
 
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-ingress-config
+data:
+  publish-service: "webpage-app-service"
+  namespace: "default"
+
