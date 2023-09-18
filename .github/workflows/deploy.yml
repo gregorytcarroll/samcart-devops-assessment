@@ -57,7 +57,9 @@ jobs:
           kubectl apply -f ./application/k8s/deployment.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config 
           kubectl apply -f ./application/k8s/service.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config 
           kubectl apply -f ./application/k8s/configmap.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config
+          kubectl apply -f ./application/k8s/templates/alb-crds.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config
           kubectl apply -f ./application/k8s/templates/alb-controller.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config 
+           
 
       # - name: Delete old deployments
       #   run: |
