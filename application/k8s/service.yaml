@@ -1,7 +1,8 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: webpage-app
+  name: webpage-app-service
+  namespace: nginx
 spec:
   selector:
     app: webpage-app
@@ -10,4 +11,5 @@ spec:
       port: 80
       targetPort: 80
   type: NodePort
+
     
