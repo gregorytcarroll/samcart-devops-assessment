@@ -54,8 +54,12 @@ jobs:
              run: terraform plan -out=tfplan
              working-directory: infrastructure/dev-env
      
-           - name: Apply Terraform changes
-             run: terraform apply tfplan
+        #    - name: Apply Terraform changes
+        #      run: terraform apply tfplan
+        #      working-directory: infrastructure/dev-env
+        
+           - name: Destroy Terraform infrastructure
+             run: terraform destroy -auto-approve
              working-directory: infrastructure/dev-env
 
-             # Add additional steps for testing and deploying your application
+             # Switch between commands for approve and destroy

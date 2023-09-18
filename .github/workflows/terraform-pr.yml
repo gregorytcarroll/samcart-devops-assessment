@@ -5,9 +5,7 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-          - 'infrastructure'
-
+      
 permissions:
     id-token: write
     contents: read

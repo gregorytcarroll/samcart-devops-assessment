@@ -3,45 +3,22 @@ kind: Namespace
 metadata:
   name: default
 
-# ---
-
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: webpage-app
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app: webpage-app
-#   template:
-#     metadata:
-#       labels:
-#         app: webpage-app
-#     spec:
-#       containers:
-#         - name: webpage-app
-#           image: 427071048654.dkr.ecr.us-west-2.amazonaws.com/simple-app-repo:latest
-#           ports:
-#             - containerPort: 5000
 
 ---
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app.kubernetes.io/name: webpage-app
   name: webpage-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: webpage-app
+      app: webpage-app 
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: webpage-app
+        app: webpage-app 
     spec:
       containers:
       - image: 427071048654.dkr.ecr.us-west-2.amazonaws.com/simple-app-repo:latest
@@ -50,31 +27,6 @@ spec:
         - containerPort: 5000
 
 
---- 
-
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: my-app-ingress
-  namespace: default
-  annotations:
-    kubernetes.io/ingress.class: "alb"
-spec:
-  tls:
-    - hosts:
-        - eks-lb-ext-1050542204.us-west-2.elb.amazonaws.com
-      secretName: eks-lb-ext-1050542204.us-west-2.elb.amazonaws-com-tls
-  rules:
-    - host: eks-lb-ext-1050542204.us-west-2.elb.amazonaws.com
-      http:
-        paths:
-          - path: /first
-            pathType: Prefix
-            backend:
-              service:
-                name: webpage-app-service
-                port:
-                  number: 5000
 
 
 

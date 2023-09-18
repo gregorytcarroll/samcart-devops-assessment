@@ -54,8 +54,12 @@ jobs:
       - name: Deploy to Kubernetes and install cert-manager
         run: |
           kubectl apply -f ./application/k8s/deployment.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config 
-          kubectl apply -f ./application/k8s/service.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config 
           kubectl apply -f ./application/k8s/configmap.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config
+
+      - name: Wait for resources to be ready
+        run: |
+          sleep 5
+          kubectl apply -f ./application/k8s/service.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config 
          # kubectl apply -f ./application/k8s/templates/alb-crds.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config
          # kubectl apply -f ./application/k8s/templates/alb-controller.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config 
          # kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.2/cert-manager.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config 
