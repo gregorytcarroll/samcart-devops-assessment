@@ -1,3 +1,35 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ingress-controller-role
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "services", "configmaps", "secrets"]
+    verbs: ["get", "list"]
+
+---
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ingress-controller-serviceaccount
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: ingress-controller-rolebinding
+subjects:
+  - kind: ServiceAccount
+    name: ingress-controller-serviceaccount
+roleRef:
+  kind: ClusterRole
+  name: ingress-controller-role
+  apiGroup: rbac.authorization.k8s.io
+
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,6 +49,7 @@ spec:
         app.kubernetes.io/name: ingress-nginx
         app.kubernetes.io/part-of: ingress-nginx
     spec:
+      serviceAccountName: ingress-controller-serviceaccount
       terminationGracePeriodSeconds: 60
       containers:
       - image: registry.k8s.io/ingress-nginx/controller:v1.0.5
