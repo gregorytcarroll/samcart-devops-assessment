@@ -881,6 +881,7 @@ webhooks:
       name: aws-load-balancer-webhook-service
       namespace: kube-system
       path: /validate-elbv2-k8s-aws-v1beta1-targetgroupbinding
+    caBundle: ""
   failurePolicy: Fail
   name: vtargetgroupbinding.elbv2.k8s.aws
   rules:
@@ -901,6 +902,7 @@ webhooks:
       name: aws-load-balancer-webhook-service
       namespace: kube-system
       path: /validate-networking-v1-ingress
+    caBundle: ""
   failurePolicy: Fail
   matchPolicy: Equivalent
   name: vingress.elbv2.k8s.aws
