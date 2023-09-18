@@ -87,13 +87,13 @@ module "vpc" {
   map_public_ip_on_launch       = true
   
   public_subnet_tags = {
-    "kubernetes.io/cluster/vpc-serverless" = "shared"
-    "kubernetes.io/role/elb"               = "2"
+    "kubernetes.io/cluster/testing-eks-cluster" = "shared"
+    "kubernetes.io/role/elb"               = "1"
   }
 
   private_subnet_tags = {
-    "kubernetes.io/cluster/vpc-serverless" = "shared"
-    "kubernetes.io/role/internal-elb"      = "2"
+    "kubernetes.io/cluster/testing-eks-cluster" = "shared"
+    "kubernetes.io/role/internal-elb"      = "1"
   }
 
   tags = {
