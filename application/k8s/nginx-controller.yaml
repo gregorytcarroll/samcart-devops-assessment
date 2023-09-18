@@ -69,9 +69,6 @@ spec:
           timeoutSeconds: 1
         ports:
         - containerPort: 5000
-          hostPort: 5000
-        # - containerPort: 443
-        #   hostPort: 443
         env:
           - name: webpage-app
             valueFrom:
@@ -83,4 +80,5 @@ spec:
                 fieldPath: metadata.namespace
         args:
         - /nginx-ingress-controller
-        - --publish-service=$(POD_NAMESPACE)/ingress-nginx-lb
+        - --publish-service=webpage-app-service name
+        - --external-service=default/webpage-app-service
