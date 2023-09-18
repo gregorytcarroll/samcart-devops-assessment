@@ -34,7 +34,7 @@ metadata:
     app.kubernetes.io/name: webpage-app
   name: webpage-app
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: webpage-app
@@ -47,7 +47,7 @@ spec:
       - image: 427071048654.dkr.ecr.us-west-2.amazonaws.com/simple-app-repo:latest
         name: webpage-app
         ports:
-        - containerPort: 5000
+        - containerPort: 80
 
 
 
