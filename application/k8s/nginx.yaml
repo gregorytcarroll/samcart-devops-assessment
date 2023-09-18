@@ -14,6 +14,7 @@ rules:
   - apiGroups:
       - "networking.k8s.io"
       - ""
+      - "elbv2.k8s.aws"
     resources:
       - services
       - endpoints
@@ -23,6 +24,7 @@ rules:
       - ingresses
       - configmaps
       - ingressclasses
+      - targetgroupbindings
     verbs:
       - get
       - list
