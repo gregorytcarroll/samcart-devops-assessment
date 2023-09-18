@@ -80,5 +80,4 @@ spec:
                 fieldPath: metadata.namespace
         args:
         - /nginx-ingress-controller
-        - --publish-service=webpage-app-service name
-        - --external-service=default/webpage-app-service
+        - --publish-service=webpage-app-service
