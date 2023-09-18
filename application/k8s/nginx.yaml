@@ -57,7 +57,7 @@ spec:
       serviceAccountName: aws-load-balancer-controller
       containers:
         - name: controller
-          image: amazon/aws-alb-ingress-controller:latest  # Use the desired version
+          image: amazon/aws-alb-ingress-controller  # Use the desired version
           args:
             - --cluster-name=testing-eks-cluster
 
