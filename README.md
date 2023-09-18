@@ -2,10 +2,10 @@
  Repo for Samcart  DevOps Test
 
  Features Included:
-  - Python Application for Slack Based Confluence bot
+  - Python Application for Simple Web App
   - Kubernetes Infra
   - Github Actions Workflows for both Terraform and K8s 
-    - Keyless integration with AWS via OIDC
+    - Keyless integration with AWS/Github via OIDC
     - Secrets all stored in Github so they are not exposed
 
 Improvements Planned:
