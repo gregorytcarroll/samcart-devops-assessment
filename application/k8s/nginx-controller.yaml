@@ -23,6 +23,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: ingress-controller-serviceaccount
+    namespace: default
 roleRef:
   kind: ClusterRole
   name: ingress-controller-role
