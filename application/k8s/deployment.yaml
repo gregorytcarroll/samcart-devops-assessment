@@ -23,7 +23,7 @@ spec:
         - name: webpage-app
           image: 427071048654.dkr.ecr.us-west-2.amazonaws.com/simple-app-repo:latest
           ports:
-            - containerPort: 80
+            - containerPort: 5000
 
 
 --- 
@@ -43,7 +43,7 @@ spec:
               service:
                 name: webpage-app-service
                 port:
-                  number: 80
+                  number: 5000
 
 
 
