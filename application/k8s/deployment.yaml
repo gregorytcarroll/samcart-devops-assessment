@@ -34,7 +34,7 @@ metadata:
     app.kubernetes.io/name: webpage-app
   name: webpage-app
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app.kubernetes.io/name: webpage-app
@@ -65,7 +65,7 @@ spec:
     - host: a068243a6363e432fa112004c9e4fbe3-2132795755.us-west-2.elb.amazonaws.com
       http:
         paths:
-          - path: /*
+          - path: /
             pathType: Prefix
             backend:
               service:
