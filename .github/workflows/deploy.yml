@@ -51,21 +51,23 @@ jobs:
         env:
           KUBECONFIG: ${{ runner.workspace }}/application/k8s/.kube/config
 
-      - name: Deploy to Kubernetes
+      - name: Deploy to Kubernetes and install cert-manager
         run: |
+          kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.1.1/cert-manager.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config 
           kubectl apply -f ./application/k8s/deployment.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config 
           kubectl apply -f ./application/k8s/service.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config 
           kubectl apply -f ./application/k8s/configmap.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config
+          kubectl apply -f ./application/k8s/nginx.yaml --kubeconfig ${{ runner.workspace }}/application/k8s/.kube/config
 
-      - name: Delete old deployments
-        run: |
-            CURRENT_DEPLOYMENT="webpage-app"
-            NAMESPACE="default"
-            kubectl get deployments -n $NAMESPACE -o custom-columns=":metadata.name" --no-headers | \
-              grep -v "$CURRENT_DEPLOYMENT" | \
-              xargs -I {} kubectl delete deployment {} -n $NAMESPACE
-        env:
-            KUBECONFIG: ${{ runner.workspace }}/application/k8s/.kube/config
+      # - name: Delete old deployments
+      #   run: |
+      #       CURRENT_DEPLOYMENT="webpage-app"
+      #       NAMESPACE="default"
+      #       kubectl get deployments -n $NAMESPACE -o custom-columns=":metadata.name" --no-headers | \
+      #         grep -v "$CURRENT_DEPLOYMENT" | \
+      #         xargs -I {} kubectl delete deployment {} -n $NAMESPACE
+      #   env:
+      #       KUBECONFIG: ${{ runner.workspace }}/application/k8s/.kube/config
       
       - name: Delete testing pods over 24 hours
         run: |
